@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const jwt = require("jsonwebtoken");
 
 const db = require("./database");
 
@@ -8,14 +9,107 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+const JWT_SECRET = process.env.JWT_SECRET;
+const ADMIN_USERNAME = process.env.ADMIN_USERNAME;
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
 
+if (!JWT_SECRET || !ADMIN_USERNAME || !ADMIN_PASSWORD) {
+    console.warn("WARNING: Admin environment variables are not configured.");
+}
+
+
+// =========================
 // HOME
+// =========================
+
 app.get("/", (req, res) => {
     res.send("TheNotebook backend is running.");
 });
 
 
+// =========================
+// ADMIN LOGIN
+// =========================
+
+app.post("/api/admin/login", (req, res) => {
+
+    const { username, password } = req.body;
+
+    if (
+        username !== ADMIN_USERNAME ||
+        password !== ADMIN_PASSWORD
+    ) {
+        return res.status(401).json({
+            error: "Invalid username or password."
+        });
+    }
+
+    const token = jwt.sign(
+        {
+            username,
+            role: "admin"
+        },
+        JWT_SECRET,
+        {
+            expiresIn: "7d"
+        }
+    );
+
+    res.json({
+        message: "Login successful.",
+        token
+    });
+});
+
+
+// =========================
+// AUTH MIDDLEWARE
+// =========================
+
+function requireAdmin(req, res, next) {
+
+    const authHeader = req.headers.authorization;
+
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+        return res.status(401).json({
+            error: "Admin authentication required."
+        });
+    }
+
+    const token = authHeader.split(" ")[1];
+
+    try {
+
+        const decoded = jwt.verify(
+            token,
+            JWT_SECRET
+        );
+
+        if (decoded.role !== "admin") {
+            return res.status(403).json({
+                error: "Admin access required."
+            });
+        }
+
+        req.admin = decoded;
+
+        next();
+
+    } catch (error) {
+
+        return res.status(401).json({
+            error: "Invalid or expired admin session."
+        });
+
+    }
+}
+
+
+// =========================
 // GET ALL BLOGS
+// PUBLIC
+// =========================
+
 app.get("/api/blogs", (req, res) => {
 
     const blogs = db.prepare(`
@@ -28,7 +122,11 @@ app.get("/api/blogs", (req, res) => {
 });
 
 
+// =========================
 // GET ONE BLOG
+// PUBLIC
+// =========================
+
 app.get("/api/blogs/:id", (req, res) => {
 
     const blog = db.prepare(`
@@ -47,8 +145,12 @@ app.get("/api/blogs/:id", (req, res) => {
 });
 
 
+// =========================
 // CREATE BLOG
-app.post("/api/blogs", (req, res) => {
+// ADMIN ONLY
+// =========================
+
+app.post("/api/blogs", requireAdmin, (req, res) => {
 
     const {
         title,
@@ -81,8 +183,12 @@ app.post("/api/blogs", (req, res) => {
 });
 
 
+// =========================
 // UPDATE BLOG
-app.put("/api/blogs/:id", (req, res) => {
+// ADMIN ONLY
+// =========================
+
+app.put("/api/blogs/:id", requireAdmin, (req, res) => {
 
     const {
         title,
@@ -121,8 +227,12 @@ app.put("/api/blogs/:id", (req, res) => {
 });
 
 
+// =========================
 // DELETE BLOG
-app.delete("/api/blogs/:id", (req, res) => {
+// ADMIN ONLY
+// =========================
+
+app.delete("/api/blogs/:id", requireAdmin, (req, res) => {
 
     const result = db.prepare(`
         DELETE FROM blogs
@@ -140,11 +250,14 @@ app.delete("/api/blogs/:id", (req, res) => {
     });
 });
 
+
 // =========================
 // REVIEWS / COMMENTS
 // =========================
 
-// GET REVIEWS FOR A BLOG
+// GET REVIEWS
+// PUBLIC
+
 app.get("/api/blogs/:id/reviews", (req, res) => {
 
     const reviews = db.prepare(`
@@ -159,6 +272,8 @@ app.get("/api/blogs/:id/reviews", (req, res) => {
 
 
 // ADD REVIEW
+// PUBLIC
+
 app.post("/api/blogs/:id/reviews", (req, res) => {
 
     const {
@@ -180,7 +295,6 @@ app.post("/api/blogs/:id/reviews", (req, res) => {
         WHERE id = ?
     `).get(req.params.id);
 
-
     if (!blog) {
 
         return res.status(404).json({
@@ -188,7 +302,6 @@ app.post("/api/blogs/:id/reviews", (req, res) => {
         });
 
     }
-
 
     const result = db.prepare(`
         INSERT INTO reviews
@@ -200,17 +313,18 @@ app.post("/api/blogs/:id/reviews", (req, res) => {
         content.trim()
     );
 
-
     res.json({
-
         message: "Review posted successfully.",
-
         id: result.lastInsertRowid
-
     });
 
 });
+
+
+// =========================
 // SERVER
+// =========================
+
 app.listen(5000, () => {
 
     console.log(
