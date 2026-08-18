@@ -1,0 +1,746 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: Georgia, "Times New Roman", serif;
+    background: #05070c;
+    color: #f4f5f7;
+    line-height: 1.6;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+
+/* =========================
+   NAVIGATION
+========================= */
+
+.navbar {
+    height: 82px;
+    padding: 0 7%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    background: #05070c;
+
+    border-bottom: 1px solid #171d2a;
+
+    position: sticky;
+    top: 0;
+
+    z-index: 100;
+}
+
+.logo {
+    font-size: 22px;
+    letter-spacing: -0.5px;
+    font-weight: 500;
+}
+
+.navbar nav {
+    display: flex;
+    gap: 38px;
+}
+
+.navbar nav a {
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    letter-spacing: 1px;
+    color: #9ca5b5;
+    transition: 0.3s;
+}
+
+.navbar nav a:hover {
+    color: white;
+}
+
+.search-btn {
+    background: transparent;
+    color: #dce2ec;
+
+    border: 1px solid #283144;
+
+    padding: 9px 18px;
+
+    border-radius: 3px;
+
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    letter-spacing: 1px;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+}
+
+.search-btn:hover {
+    border-color: #466fae;
+    color: white;
+}
+
+
+/* =========================
+   HERO
+========================= */
+
+.hero {
+    min-height: 720px;
+
+    padding: 120px 8%;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    position: relative;
+
+    overflow: hidden;
+
+    border-bottom: 1px solid #171d2a;
+}
+
+.hero::before {
+    content: "";
+
+    position: absolute;
+
+    width: 500px;
+    height: 500px;
+
+    right: -180px;
+    top: 100px;
+
+    background: #0b1d3b;
+
+    filter: blur(120px);
+
+    opacity: 0.45;
+
+    border-radius: 50%;
+}
+
+.hero-content {
+    position: relative;
+
+    z-index: 2;
+
+    max-width: 900px;
+}
+
+.eyebrow {
+    font-family: Arial, sans-serif;
+
+    font-size: 10px;
+
+    letter-spacing: 4px;
+
+    color: #648dcc;
+
+    margin-bottom: 28px;
+}
+
+.hero h1 {
+    font-size: clamp(70px, 12vw, 170px);
+
+    font-weight: 400;
+
+    letter-spacing: -8px;
+
+    line-height: 0.9;
+
+    color: #f5f5f5;
+
+    margin-bottom: 45px;
+}
+
+.primary-btn {
+    display: inline-block;
+
+    padding: 13px 22px;
+
+    border: 1px solid #34445f;
+
+    color: #dfe6f1;
+
+    font-family: Arial, sans-serif;
+
+    font-size: 11px;
+
+    letter-spacing: 1px;
+
+    border-radius: 2px;
+
+    transition: 0.3s;
+}
+
+.primary-btn:hover {
+    background: #e9edf3;
+
+    color: #05070c;
+
+    border-color: #e9edf3;
+}
+
+
+/* =========================
+   CIRCLE DETAIL
+========================= */
+
+.hero-decoration {
+    width: 280px;
+    height: 280px;
+
+    border: 1px solid #202b3e;
+
+    border-radius: 50%;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    position: relative;
+
+    z-index: 2;
+}
+
+.hero-decoration::after {
+    content: "";
+
+    position: absolute;
+
+    width: 8px;
+    height: 8px;
+
+    background: #648dcc;
+
+    border-radius: 50%;
+
+    top: 22px;
+}
+
+.hero-decoration .orbit {
+    width: 175px;
+    height: 175px;
+
+    border: 1px solid #30486c;
+
+    border-radius: 50%;
+}
+
+.hero-decoration span {
+    position: absolute;
+
+    font-family: Arial, sans-serif;
+
+    font-size: 11px;
+
+    color: #648dcc;
+}
+
+
+/* =========================
+   JOURNAL
+========================= */
+
+.latest {
+    padding: 120px 8%;
+}
+
+.section-heading {
+    display: flex;
+
+    align-items: end;
+
+    justify-content: space-between;
+
+    margin-bottom: 60px;
+}
+
+.section-heading h2 {
+    font-size: 48px;
+
+    font-weight: 400;
+
+    letter-spacing: -2px;
+}
+
+.section-heading > p {
+    max-width: 280px;
+
+    color: #737d8e;
+
+    font-family: Arial, sans-serif;
+
+    font-size: 13px;
+}
+
+
+/* =========================
+   BLOG CARDS
+========================= */
+
+.blog-grid {
+    display: grid;
+
+    grid-template-columns: repeat(2, 1fr);
+
+    gap: 28px;
+}
+
+.blog-card {
+    background: #080c14;
+
+    border: 1px solid #171f2e;
+
+    border-radius: 3px;
+
+    overflow: hidden;
+
+    transition: 0.4s;
+}
+
+.blog-card:hover {
+    transform: translateY(-6px);
+
+    border-color: #334d76;
+}
+
+.blog-card.featured {
+    grid-column: span 2;
+
+    display: grid;
+
+    grid-template-columns: 1.15fr 1fr;
+}
+
+.blog-image {
+    min-height: 300px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #10192a,
+            #07101f
+        );
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+}
+
+.blog-image.blue {
+    background:
+        linear-gradient(
+            135deg,
+            #0c2346,
+            #07101d
+        );
+}
+
+.blog-image.dark {
+    background:
+        linear-gradient(
+            135deg,
+            #0b0d12,
+            #151a24
+        );
+}
+
+.blog-image span {
+    font-family: Georgia, serif;
+
+    font-size: 72px;
+
+    color: #577eb8;
+
+    opacity: 0.75;
+}
+
+.blog-info {
+    padding: 38px;
+}
+
+.blog-category {
+    font-family: Arial, sans-serif;
+
+    font-size: 9px;
+
+    letter-spacing: 3px;
+
+    color: #648dcc;
+}
+
+.blog-info h3 {
+    font-size: 30px;
+
+    font-weight: 400;
+
+    line-height: 1.15;
+
+    margin: 16px 0;
+}
+
+.blog-info > p:not(.blog-category) {
+    color: #8993a4;
+
+    font-family: Arial, sans-serif;
+
+    font-size: 13px;
+
+    line-height: 1.8;
+}
+
+.blog-meta {
+    display: flex;
+
+    gap: 9px;
+
+    margin-top: 28px;
+
+    color: #5f6a7c;
+
+    font-family: Arial, sans-serif;
+
+    font-size: 10px;
+
+    letter-spacing: 0.5px;
+}
+
+
+/* =========================
+   ABOUT
+========================= */
+
+.about {
+    padding: 140px 8%;
+
+    background: #080d17;
+
+    border-top: 1px solid #171f2e;
+
+    border-bottom: 1px solid #171f2e;
+}
+
+.about-inner {
+    max-width: 800px;
+}
+
+.about h2 {
+    font-size: clamp(50px, 7vw, 90px);
+
+    font-weight: 400;
+
+    letter-spacing: -4px;
+
+    line-height: 0.95;
+
+    margin-bottom: 35px;
+}
+
+.about p:last-child {
+    max-width: 500px;
+
+    color: #858fa0;
+
+    font-family: Arial, sans-serif;
+
+    font-size: 14px;
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+
+footer {
+    padding: 60px 8%;
+
+    text-align: center;
+}
+
+.footer-logo {
+    font-size: 22px;
+}
+
+footer p {
+    margin-top: 10px;
+
+    color: #677184;
+
+    font-family: Arial, sans-serif;
+
+    font-size: 12px;
+}
+
+footer .copyright {
+    margin-top: 25px;
+
+    font-size: 10px;
+
+    color: #4e5869;
+}
+
+
+/* =========================
+   SEARCH
+========================= */
+
+.search-overlay {
+    display: none;
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 500;
+
+    background: rgba(3, 5, 9, 0.98);
+
+    align-items: center;
+
+    justify-content: center;
+}
+
+.search-content {
+    width: min(700px, 88%);
+}
+
+.search-content input {
+    width: 100%;
+
+    background: transparent;
+
+    border: none;
+
+    border-bottom: 1px solid #34445f;
+
+    padding: 18px 0;
+
+    color: white;
+
+    font-family: Georgia, serif;
+
+    font-size: 35px;
+
+    outline: none;
+}
+
+.search-content input:focus {
+    border-color: #648dcc;
+}
+
+.close-search {
+    position: absolute;
+
+    top: 25px;
+    right: 35px;
+
+    background: none;
+
+    border: none;
+
+    color: white;
+
+    font-size: 36px;
+
+    cursor: pointer;
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 700px) {
+
+    .navbar {
+        padding: 0 5%;
+    }
+
+    .navbar nav {
+        display: none;
+    }
+
+    .hero {
+        min-height: 620px;
+
+        padding: 90px 6%;
+    }
+
+    .hero h1 {
+        font-size: 70px;
+
+        letter-spacing: -4px;
+    }
+
+    .hero-decoration {
+        display: none;
+    }
+
+    .latest {
+        padding: 85px 6%;
+    }
+
+    .section-heading {
+        display: block;
+    }
+
+    .section-heading h2 {
+        font-size: 40px;
+    }
+
+    .section-heading > p {
+        margin-top: 15px;
+    }
+
+    .blog-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .blog-card.featured {
+        grid-column: span 1;
+
+        display: block;
+    }
+
+    .blog-info {
+        padding: 28px;
+    }
+
+    .blog-info h3 {
+        font-size: 25px;
+    }
+
+    .about {
+        padding: 90px 6%;
+    }
+
+    .about h2 {
+        font-size: 55px;
+    }
+}
+/* =========================
+   ARTICLE PAGE
+========================= */
+
+.article-page {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 130px 30px 100px;
+}
+
+.article-header {
+    max-width: 800px;
+}
+
+.article-header h1 {
+    font-size: clamp(55px, 8vw, 100px);
+    font-weight: 400;
+    line-height: 0.95;
+    letter-spacing: -4px;
+    margin-bottom: 30px;
+}
+
+.article-meta {
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    color: #6f7b8e;
+    letter-spacing: 0.5px;
+}
+
+.article-line {
+    width: 100%;
+    height: 1px;
+    background: #1b2433;
+    margin: 70px 0;
+}
+
+.article-content {
+    max-width: 680px;
+    margin: 0 auto;
+}
+
+.article-content p {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 19px;
+    line-height: 2;
+    color: #b8c0cd;
+    margin-bottom: 30px;
+}
+
+.article-content .article-intro {
+    font-size: 27px;
+    color: #f3f5f8;
+    line-height: 1.5;
+}
+
+.article-content h2 {
+    font-size: 42px;
+    font-weight: 400;
+    letter-spacing: -1px;
+    margin: 70px 0 30px;
+}
+
+.article-footer {
+    max-width: 680px;
+    margin: 80px auto 0;
+    padding-top: 30px;
+    border-top: 1px solid #1b2433;
+}
+
+.article-footer a {
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    color: #6d91c4;
+    letter-spacing: 1px;
+}
+
+.article-footer a:hover {
+    color: white;
+}
+
+
+/* ARTICLE MOBILE */
+
+@media (max-width: 700px) {
+
+    .article-page {
+        padding: 90px 6% 70px;
+    }
+
+    .article-header h1 {
+        font-size: 55px;
+        letter-spacing: -3px;
+    }
+
+    .article-line {
+        margin: 50px 0;
+    }
+
+    .article-content p {
+        font-size: 17px;
+        line-height: 1.9;
+    }
+
+    .article-content .article-intro {
+        font-size: 23px;
+    }
+
+    .article-content h2 {
+        font-size: 34px;
+    }
+}

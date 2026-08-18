@@ -1,0 +1,1264 @@
+TheNotebook Admin — Complete "index.html"
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TheNotebook — Admin</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    min-height:100vh;
+    background:
+        radial-gradient(circle at 85% 5%,rgba(80,125,190,.12),transparent 30%),
+        #05070c;
+    color:#f3f5f8;
+    font-family:Georgia,"Times New Roman",serif;
+}
+
+header{
+    height:82px;
+    padding:0 7%;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    border-bottom:1px solid #192130;
+}
+
+.brand{
+    display:flex;
+    align-items:center;
+    gap:13px;
+}
+
+.brand-shape{
+    position:relative;
+    width:34px;
+    height:34px;
+}
+
+.brand-shape span{
+    position:absolute;
+    width:19px;
+    height:19px;
+    border-radius:50%;
+    border:1px solid rgba(145,178,227,.6);
+}
+
+.brand-shape span:nth-child(1){
+    top:0;
+    left:7px;
+}
+
+.brand-shape span:nth-child(2){
+    top:10px;
+    left:0;
+}
+
+.brand-shape span:nth-child(3){
+    top:10px;
+    left:14px;
+}
+
+.logo{
+    font-size:23px;
+    letter-spacing:-.5px;
+}
+
+.logo span{
+    color:#91b2e3;
+}
+
+.back{
+    color:#68758a;
+    text-decoration:none;
+    font-family:Arial,sans-serif;
+    font-size:9px;
+    letter-spacing:3px;
+}
+
+main{
+    width:min(1050px,86%);
+    margin:auto;
+    padding:90px 0 120px;
+}
+
+.eyebrow{
+    font-family:Arial,sans-serif;
+    font-size:8px;
+    letter-spacing:5px;
+    color:#91b2e3;
+    margin-bottom:18px;
+}
+
+.page-title{
+    margin-bottom:60px;
+}
+
+h1{
+    font-size:clamp(48px,7vw,78px);
+    font-weight:400;
+    letter-spacing:-5px;
+}
+
+.editor{
+    border-top:1px solid #192130;
+    padding-top:35px;
+}
+
+.field{
+    margin-bottom:30px;
+}
+
+label{
+    display:block;
+    font-family:Arial,sans-serif;
+    font-size:8px;
+    letter-spacing:3px;
+    color:#68758a;
+    margin-bottom:10px;
+}
+
+input,
+select,
+textarea{
+    width:100%;
+    background:#070a11;
+    color:#f4f5f7;
+    border:1px solid #1b2637;
+    outline:none;
+    padding:16px;
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+    border-color:#91b2e3;
+}
+
+input{
+    font-family:Georgia,"Times New Roman",serif;
+    font-size:20px;
+}
+
+select,
+textarea{
+    font-family:Arial,sans-serif;
+    font-size:13px;
+}
+
+textarea{
+    min-height:300px;
+    resize:vertical;
+    line-height:1.8;
+}
+
+.actions{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.publish{
+    border:0;
+    background:#edf1f6;
+    color:#05070c;
+    padding:15px 25px;
+    font-family:Arial,sans-serif;
+    font-size:9px;
+    letter-spacing:3px;
+    cursor:pointer;
+}
+
+.publish:hover{
+    background:#91b2e3;
+}
+
+#message{
+    font-family:Arial,sans-serif;
+    font-size:10px;
+    color:#68758a;
+}
+
+
+/* ENTRIES */
+
+.entries{
+    margin-top:110px;
+    border-top:1px solid #192130;
+    padding-top:35px;
+}
+
+.entries-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+}
+
+.entries-head h2{
+    font-size:25px;
+    font-weight:400;
+}
+
+.count{
+    font-family:Arial,sans-serif;
+    font-size:8px;
+    letter-spacing:3px;
+    color:#68758a;
+}
+
+.entry{
+    display:grid;
+    grid-template-columns:55px 1fr auto;
+    gap:20px;
+    align-items:center;
+    padding:25px 10px;
+    border-bottom:1px solid #192130;
+    transition:.3s;
+}
+
+.entry:hover{
+    background:linear-gradient(
+        90deg,
+        rgba(100,141,204,.045),
+        transparent
+    );
+}
+
+.entry-number{
+    font-family:Arial,sans-serif;
+    font-size:9px;
+    color:#3e4b60;
+    letter-spacing:2px;
+}
+
+.entry-title{
+    font-size:21px;
+    margin-bottom:7px;
+}
+
+.entry-meta{
+    font-family:Arial,sans-serif;
+    font-size:8px;
+    letter-spacing:2px;
+    color:#68758a;
+}
+
+.entry-actions{
+    display:flex;
+    gap:8px;
+}
+
+.entry-actions button{
+    border:1px solid #263247;
+    background:transparent;
+    color:#68758a;
+    padding:9px 13px;
+    font-family:Arial,sans-serif;
+    font-size:8px;
+    letter-spacing:1px;
+    cursor:pointer;
+    transition:.25s;
+}
+
+.entry-actions button:hover{
+    border-color:#91b2e3;
+    color:#91b2e3;
+}
+
+
+/* MODAL */
+
+.modal{
+    position:fixed;
+    inset:0;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    background:rgba(2,4,9,.82);
+    backdrop-filter:blur(16px);
+    -webkit-backdrop-filter:blur(16px);
+    z-index:1000;
+}
+
+.modal.show{
+    display:flex;
+}
+
+.modal-card{
+    position:relative;
+    width:min(760px,100%);
+    max-height:90vh;
+    overflow:auto;
+    padding:52px 55px 45px;
+
+    background:
+        radial-gradient(
+            circle at 90% 5%,
+            rgba(120,165,225,.13),
+            transparent 28%
+        ),
+        #080c14;
+
+    border:1px solid #29384d;
+
+    box-shadow:
+        0 40px 120px rgba(0,0,0,.75);
+
+    animation:appear .3s ease;
+}
+
+@keyframes appear{
+    from{
+        opacity:0;
+        transform:translateY(18px) scale(.98);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0) scale(1);
+    }
+}
+
+.modal-decoration{
+    position:absolute;
+    top:20px;
+    right:25px;
+    width:110px;
+    height:110px;
+    pointer-events:none;
+}
+
+.circle{
+    position:absolute;
+    border:1px solid rgba(145,178,227,.16);
+    border-radius:50%;
+}
+
+.circle.one{
+    width:100px;
+    height:45px;
+    top:25px;
+    left:5px;
+    transform:rotate(-30deg);
+}
+
+.circle.two{
+    width:100px;
+    height:45px;
+    top:25px;
+    left:5px;
+    transform:rotate(30deg);
+}
+
+.circle.three{
+    width:55px;
+    height:55px;
+    top:20px;
+    left:28px;
+}
+
+.modal-top{
+    display:flex;
+    justify-content:space-between;
+    padding-bottom:20px;
+    margin-bottom:35px;
+    border-bottom:1px solid #1c2839;
+}
+
+.modal-label{
+    font-family:Arial,sans-serif;
+    font-size:8px;
+    letter-spacing:4px;
+    color:#91b2e3;
+}
+
+.modal-number{
+    font-family:Arial,sans-serif;
+    font-size:8px;
+    color:#46536a;
+    letter-spacing:2px;
+}
+
+.modal-title{
+    font-size:clamp(42px,6vw,65px);
+    font-weight:400;
+    letter-spacing:-4px;
+    margin-bottom:12px;
+}
+
+.modal-subtitle{
+    font-family:Arial,sans-serif;
+    font-size:10px;
+    color:#68758a;
+    margin-bottom:35px;
+}
+
+.modal-field{
+    margin-bottom:25px;
+}
+
+.modal-field input,
+.modal-field textarea{
+    background:#05080e;
+    border:1px solid #1d2a3c;
+}
+
+.modal-field input{
+    font-family:Georgia,"Times New Roman",serif;
+    font-size:21px;
+}
+
+.modal-field textarea{
+    min-height:220px;
+    font-family:Georgia,"Times New Roman",serif;
+    font-size:15px;
+    line-height:1.8;
+    resize:vertical;
+}
+
+.modal-footer{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:20px;
+    padding-top:25px;
+    margin-top:30px;
+    border-top:1px solid #1c2839;
+}
+
+.modal-note{
+    font-family:Arial,sans-serif;
+    font-size:8px;
+    line-height:1.7;
+    letter-spacing:1px;
+    color:#46536a;
+}
+
+.modal-buttons{
+    display:flex;
+    gap:9px;
+}
+
+.modal-btn{
+    min-width:95px;
+    padding:13px 18px;
+    border:1px solid #29374c;
+    background:transparent;
+    color:#718096;
+    font-family:Arial,sans-serif;
+    font-size:8px;
+    letter-spacing:2px;
+    cursor:pointer;
+}
+
+.modal-btn:hover{
+    border-color:#91b2e3;
+    color:#91b2e3;
+}
+
+.modal-btn.primary{
+    background:#edf1f6;
+    color:#05070c;
+    border-color:#edf1f6;
+}
+
+.modal-btn.primary:hover{
+    background:#91b2e3;
+    border-color:#91b2e3;
+}
+
+
+/* DELETE */
+
+.delete-card{
+    width:min(450px,100%);
+    text-align:center;
+}
+
+.delete-card .modal-title{
+    margin-top:20px;
+}
+
+.delete-text{
+    font-family:Arial,sans-serif;
+    color:#68758a;
+    font-size:12px;
+    line-height:1.7;
+    margin-bottom:25px;
+}
+
+
+/* MOBILE */
+
+@media(max-width:650px){
+
+    header{
+        height:70px;
+        padding:0 6%;
+    }
+
+    .logo{
+        font-size:20px;
+    }
+
+    main{
+        width:88%;
+        padding:65px 0 80px;
+    }
+
+    .actions{
+        align-items:flex-start;
+        flex-direction:column;
+        gap:15px;
+    }
+
+    .entry{
+        grid-template-columns:35px 1fr;
+        gap:12px;
+    }
+
+    .entry-actions{
+        grid-column:2;
+    }
+
+    .modal-card{
+        padding:35px 22px 30px;
+    }
+
+    .modal-decoration{
+        transform:scale(.7);
+        right:5px;
+        top:5px;
+    }
+
+    .modal-footer{
+        align-items:flex-start;
+        flex-direction:column;
+    }
+
+    .modal-buttons{
+        width:100%;
+    }
+
+    .modal-btn{
+        flex:1;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div class="brand">
+
+<div class="brand-shape">
+<span></span>
+<span></span>
+<span></span>
+</div>
+
+<div class="logo">
+The<span>Notebook</span>
+</div>
+
+</div>
+
+<a href="../frontend/index.html" class="back">
+← SITE
+</a>
+
+</header>
+
+
+<main>
+
+<section class="page-title">
+
+<p class="eyebrow">ADMIN</p>
+
+<h1>Compose.</h1>
+
+</section>
+
+
+<form id="blogForm" class="editor">
+
+<div class="field">
+
+<label>TITLE</label>
+
+<input
+id="title"
+type="text"
+placeholder="Title"
+required
+>
+
+</div>
+
+
+<div class="field">
+
+<label>CATEGORY</label>
+
+<select id="category">
+
+<option value="Journal">Journal</option>
+<option value="Thoughts">Thoughts</option>
+<option value="Stories">Stories</option>
+<option value="Ideas">Ideas</option>
+<option value="Notes">Notes</option>
+
+</select>
+
+</div>
+
+
+<div class="field">
+
+<label>CONTENT</label>
+
+<textarea
+id="content"
+placeholder="Write..."
+required
+></textarea>
+
+</div>
+
+
+<div class="actions">
+
+<button
+type="submit"
+class="publish"
+>
+PUBLISH
+</button>
+
+<div id="message"></div>
+
+</div>
+
+</form>
+
+
+<section class="entries">
+
+<div class="entries-head">
+
+<h2>Entries</h2>
+
+<span id="entryCount" class="count">
+LOADING
+</span>
+
+</div>
+
+<div id="entriesList"></div>
+
+</section>
+
+</main>
+
+
+<!-- EDIT -->
+
+<div id="editModal" class="modal">
+
+<div class="modal-card">
+
+<div class="modal-decoration">
+<div class="circle one"></div>
+<div class="circle two"></div>
+<div class="circle three"></div>
+</div>
+
+<div class="modal-top">
+
+<span class="modal-label">
+EDIT / ENTRY
+</span>
+
+<span id="editNumber" class="modal-number">
+—
+</span>
+
+</div>
+
+<h2 class="modal-title">
+Refine.
+</h2>
+
+<p class="modal-subtitle">
+Shape the thought. Keep the feeling.
+</p>
+
+
+<div class="modal-field">
+
+<label>TITLE</label>
+
+<input id="editTitle" type="text">
+
+</div>
+
+
+<div class="modal-field">
+
+<label>CONTENT</label>
+
+<textarea id="editContent"></textarea>
+
+</div>
+
+
+<div class="modal-footer">
+
+<p class="modal-note">
+A quiet space<br>
+for better words.
+</p>
+
+<div class="modal-buttons">
+
+<button
+type="button"
+class="modal-btn"
+id="cancelEdit"
+>
+CLOSE
+</button>
+
+<button
+type="button"
+class="modal-btn primary"
+id="saveEdit"
+>
+SAVE
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- DELETE -->
+
+<div id="deleteModal" class="modal">
+
+<div class="modal-card delete-card">
+
+<p class="modal-label">
+REMOVE
+</p>
+
+<h2 class="modal-title">
+Let go?
+</h2>
+
+<p class="delete-text">
+This entry will leave the notebook.
+</p>
+
+<div class="modal-buttons">
+
+<button
+type="button"
+class="modal-btn"
+id="cancelDelete"
+>
+KEEP
+</button>
+
+<button
+type="button"
+class="modal-btn primary"
+id="confirmDelete"
+>
+REMOVE
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+<script>
+
+const API = "http://localhost:5000/api/blogs";
+
+const form = document.getElementById("blogForm");
+const message = document.getElementById("message");
+const entriesList = document.getElementById("entriesList");
+const entryCount = document.getElementById("entryCount");
+
+const editModal = document.getElementById("editModal");
+const deleteModal = document.getElementById("deleteModal");
+
+const editTitle = document.getElementById("editTitle");
+const editContent = document.getElementById("editContent");
+const editNumber = document.getElementById("editNumber");
+
+let editingId = null;
+let deletingId = null;
+
+
+/* =========================
+   PUBLISH
+========================= */
+
+form.addEventListener("submit", async (event) => {
+
+    event.preventDefault();
+
+    const title =
+        document.getElementById("title").value.trim();
+
+    const category =
+        document.getElementById("category").value;
+
+    const content =
+        document.getElementById("content").value.trim();
+
+    if (!title || !content) {
+        return;
+    }
+
+    message.textContent = "Publishing...";
+
+    try {
+
+        const response = await fetch(API, {
+
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify({
+                title,
+                category,
+                content
+            })
+
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.error || "Unable to publish.");
+        }
+
+        form.reset();
+
+        message.textContent = "Published.";
+
+        await loadEntries();
+
+    } catch (error) {
+
+        console.error(error);
+
+        message.textContent = "Unable.";
+
+    }
+
+});
+
+
+/* =========================
+   LOAD ENTRIES
+========================= */
+
+async function loadEntries() {
+
+    try {
+
+        const response = await fetch(API);
+
+        if (!response.ok) {
+            throw new Error("Unable to load entries.");
+        }
+
+        const data = await response.json();
+
+        const blogs = Array.isArray(data)
+            ? data
+            : Array.isArray(data.blogs)
+            ? data.blogs
+            : [];
+
+        entriesList.innerHTML = "";
+
+        entryCount.textContent =
+            blogs.length === 1
+            ? "01 ENTRY"
+            : `${String(blogs.length).padStart(2,"0")} ENTRIES`;
+
+
+        if (blogs.length === 0) {
+
+            entriesList.innerHTML = `
+                <div style="
+                    padding:30px 0;
+                    color:#68758a;
+                    font-family:Arial,sans-serif;
+                    font-size:11px;
+                ">
+                    No entries yet.
+                </div>
+            `;
+
+            return;
+        }
+
+
+        blogs.forEach((blog, index) => {
+
+            const entry = document.createElement("div");
+
+            entry.className = "entry";
+
+
+            entry.innerHTML = `
+
+                <div class="entry-number">
+                    ${String(index + 1).padStart(2,"0")}
+                </div>
+
+                <div>
+
+                    <div class="entry-title">
+                        ${escapeHTML(blog.title || "Untitled")}
+                    </div>
+
+                    <div class="entry-meta">
+                        ${escapeHTML(blog.category || "Journal")}
+                    </div>
+
+                </div>
+
+                <div class="entry-actions">
+
+                    <button
+                        type="button"
+                        class="edit-btn"
+                    >
+                        EDIT
+                    </button>
+
+                    <button
+                        type="button"
+                        class="delete-btn"
+                    >
+                        DELETE
+                    </button>
+
+                </div>
+
+            `;
+
+
+            entry
+                .querySelector(".edit-btn")
+                .addEventListener("click", () => {
+
+                    openEdit(blog, index + 1);
+
+                });
+
+
+            entry
+                .querySelector(".delete-btn")
+                .addEventListener("click", () => {
+
+                    openDelete(blog.id);
+
+                });
+
+
+            entriesList.appendChild(entry);
+
+        });
+
+
+    } catch (error) {
+
+        console.error("Entries error:", error);
+
+        entriesList.innerHTML = `
+            <div style="
+                padding:30px 0;
+                color:#d87878;
+                font-family:Arial,sans-serif;
+                font-size:11px;
+            ">
+                Unable to load entries.
+            </div>
+        `;
+
+        entryCount.textContent = "OFFLINE";
+    }
+}
+
+
+/* =========================
+   EDIT
+========================= */
+
+function openEdit(blog, number) {
+
+    editingId = blog.id;
+
+    editTitle.value = blog.title || "";
+
+    editContent.value = blog.content || "";
+
+    editNumber.textContent =
+        String(number).padStart(2,"0");
+
+    editModal.classList.add("show");
+
+    setTimeout(() => {
+        editTitle.focus();
+    }, 150);
+}
+
+
+function closeEdit() {
+
+    editingId = null;
+
+    editModal.classList.remove("show");
+}
+
+
+async function saveEditEntry() {
+
+    if (!editingId) {
+        return;
+    }
+
+    const title = editTitle.value.trim();
+
+    const content = editContent.value.trim();
+
+    if (!title || !content) {
+        return;
+    }
+
+    try {
+
+        const response = await fetch(
+            `${API}/${editingId}`,
+            {
+                method: "PUT",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+                    title,
+                    content
+                })
+            }
+        );
+
+
+        const data = await response.json();
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.error || "Unable to update."
+            );
+
+        }
+
+
+        closeEdit();
+
+        await loadEntries();
+
+
+    } catch (error) {
+
+        console.error("Edit error:", error);
+
+        alert("Unable to update entry.");
+
+    }
+}
+
+
+/* =========================
+   DELETE
+========================= */
+
+function openDelete(id) {
+
+    deletingId = id;
+
+    deleteModal.classList.add("show");
+}
+
+
+function closeDelete() {
+
+    deletingId = null;
+
+    deleteModal.classList.remove("show");
+}
+
+
+async function confirmDeleteEntry() {
+
+    if (!deletingId) {
+        return;
+    }
+
+
+    try {
+
+        const response = await fetch(
+            `${API}/${deletingId}`,
+            {
+                method: "DELETE"
+            }
+        );
+
+
+        const data = await response.json();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.error || "Unable to delete."
+            );
+
+        }
+
+
+        closeDelete();
+
+        await loadEntries();
+
+
+    } catch (error) {
+
+        console.error("Delete error:", error);
+
+        alert("Unable to delete entry.");
+
+    }
+}
+
+
+/* =========================
+   BUTTONS
+========================= */
+
+document
+    .getElementById("cancelEdit")
+    .addEventListener("click", closeEdit);
+
+
+document
+    .getElementById("saveEdit")
+    .addEventListener("click", saveEditEntry);
+
+
+document
+    .getElementById("cancelDelete")
+    .addEventListener("click", closeDelete);
+
+
+document
+    .getElementById("confirmDelete")
+    .addEventListener("click", confirmDeleteEntry);
+
+
+/* =========================
+   BACKDROP
+========================= */
+
+editModal.addEventListener("click", (event) => {
+
+    if (event.target === editModal) {
+        closeEdit();
+    }
+
+});
+
+
+deleteModal.addEventListener("click", (event) => {
+
+    if (event.target === deleteModal) {
+        closeDelete();
+    }
+
+});
+
+
+/* =========================
+   ESC
+========================= */
+
+document.addEventListener("keydown", (event) => {
+
+    if (event.key === "Escape") {
+
+        closeEdit();
+        closeDelete();
+
+    }
+
+});
+
+
+/* =========================
+   SECURITY
+========================= */
+
+function escapeHTML(text) {
+
+    const div = document.createElement("div");
+
+    div.textContent = text;
+
+    return div.innerHTML;
+}
+
+
+/* =========================
+   START
+========================= */
+
+loadEntries();
+
+</script>
+
+</body>
+</html>
