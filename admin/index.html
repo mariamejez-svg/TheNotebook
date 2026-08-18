@@ -1,8 +1,11 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TheNotebook — Admin</title><style>
+<title>TheNotebook — Admin</title>
+
+<style>
 *{
     margin:0;
     padding:0;
@@ -79,7 +82,6 @@ header{
     letter-spacing:3px;
 }
 
-
 /* =========================
    LOGIN
 ========================= */
@@ -96,9 +98,15 @@ header{
     width:min(410px,100%);
     padding:50px 42px;
     border:1px solid #1b2637;
+
     background:
-        radial-gradient(circle at 90% 0%,rgba(120,165,225,.1),transparent 35%),
+        radial-gradient(
+            circle at 90% 0%,
+            rgba(120,165,225,.10),
+            transparent 35%
+        ),
         #080c14;
+
     box-shadow:0 35px 100px rgba(0,0,0,.55);
 }
 
@@ -152,8 +160,8 @@ textarea:focus{
     font-size:13px;
 }
 
-.login-button{
-    width:100%;
+.login-button,
+.publish{
     border:0;
     background:#edf1f6;
     color:#05070c;
@@ -165,13 +173,18 @@ textarea:focus{
     margin-top:8px;
 }
 
-.login-button:hover{
+.login-button{
+    width:100%;
+}
+
+.login-button:hover,
+.publish:hover{
     background:#91b2e3;
 }
 
 .login-button:disabled{
     opacity:.6;
-    cursor:wait;
+    cursor:not-allowed;
 }
 
 #loginMessage{
@@ -180,7 +193,6 @@ textarea:focus{
     color:#a66d7b;
     margin-top:15px;
 }
-
 
 /* =========================
    ADMIN
@@ -239,18 +251,7 @@ textarea{
 }
 
 .publish{
-    border:0;
-    background:#edf1f6;
-    color:#05070c;
     padding:15px 25px;
-    font-family:Arial,sans-serif;
-    font-size:9px;
-    letter-spacing:3px;
-    cursor:pointer;
-}
-
-.publish:hover{
-    background:#91b2e3;
 }
 
 #message{
@@ -258,7 +259,6 @@ textarea{
     font-size:10px;
     color:#68758a;
 }
-
 
 /* =========================
    ENTRIES
@@ -348,9 +348,8 @@ textarea{
     color:#91b2e3;
 }
 
-
 /* =========================
-   MODALS
+   MODAL
 ========================= */
 
 .modal{
@@ -360,9 +359,12 @@ textarea{
     align-items:center;
     justify-content:center;
     padding:20px;
+
     background:rgba(2,4,9,.82);
+
     backdrop-filter:blur(16px);
     -webkit-backdrop-filter:blur(16px);
+
     z-index:1000;
 }
 
@@ -375,7 +377,9 @@ textarea{
     width:min(760px,100%);
     max-height:90vh;
     overflow:auto;
+
     padding:52px 55px 45px;
+
     background:
         radial-gradient(
             circle at 90% 5%,
@@ -383,8 +387,12 @@ textarea{
             transparent 28%
         ),
         #080c14;
+
     border:1px solid #29384d;
-    box-shadow:0 40px 120px rgba(0,0,0,.75);
+
+    box-shadow:
+        0 40px 120px rgba(0,0,0,.75);
+
     animation:appear .3s ease;
 }
 
@@ -399,6 +407,8 @@ textarea{
         transform:translateY(0) scale(1);
     }
 }
+
+/* MODAL DECORATION */
 
 .modal-decoration{
     position:absolute;
@@ -441,8 +451,10 @@ textarea{
 .modal-top{
     display:flex;
     justify-content:space-between;
+
     padding-bottom:20px;
     margin-bottom:35px;
+
     border-bottom:1px solid #1c2839;
 }
 
@@ -502,8 +514,10 @@ textarea{
     justify-content:space-between;
     align-items:center;
     gap:20px;
+
     padding-top:25px;
     margin-top:30px;
+
     border-top:1px solid #1c2839;
 }
 
@@ -523,13 +537,17 @@ textarea{
 .modal-btn{
     min-width:95px;
     padding:13px 18px;
+
     border:1px solid #29374c;
     background:transparent;
     color:#718096;
+
     font-family:Arial,sans-serif;
     font-size:8px;
     letter-spacing:2px;
+
     cursor:pointer;
+    transition:.25s;
 }
 
 .modal-btn:hover{
@@ -548,10 +566,7 @@ textarea{
     border-color:#91b2e3;
 }
 
-
-/* =========================
-   DELETE MODAL
-========================= */
+/* DELETE MODAL */
 
 .delete-card{
     width:min(450px,100%);
@@ -569,7 +584,6 @@ textarea{
     line-height:1.7;
     margin-bottom:25px;
 }
-
 
 /* =========================
    MOBILE
@@ -641,26 +655,56 @@ textarea{
         flex:1;
     }
 }
-</style></head><body><header><div class="brand"><div class="brand-shape">
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div class="brand">
+
+<div class="brand-shape">
 <span></span>
 <span></span>
 <span></span>
-</div><div class="logo">
+</div>
+
+<div class="logo">
 The<span>Notebook</span>
-</div></div><a
+</div>
+
+</div>
+
+<a
 href="https://the-notebook-taupe.vercel.app/"
 class="back"
-
-«»
-
+>
 + SITE
-  </a>
+</a>
 
-</header><!-- =========================
+</header>
+
+
+<!-- =========================
      LOGIN
-========================= --><section id="loginScreen"><div class="login-box"><p class="eyebrow">THE NOTEBOOK</p><h1 class="login-title">
+========================= -->
+
+<section id="loginScreen">
+
+<div class="login-box">
+
+<p class="eyebrow">
+THE NOTEBOOK
+</p>
+
+<h1 class="login-title">
 Welcome.
-</h1><div class="login-field"><label>USERNAME</label>
+</h1>
+
+<div class="login-field">
+
+<label>USERNAME</label>
 
 <input
 id="username"
@@ -668,10 +712,13 @@ class="login-input"
 type="text"
 autocomplete="username"
 placeholder="Username"
+>
 
-«»
+</div>
 
-</div><div class="login-field"><label>PASSWORD</label>
+<div class="login-field">
+
+<label>PASSWORD</label>
 
 <input
 id="password"
@@ -679,114 +726,235 @@ class="login-input"
 type="password"
 autocomplete="current-password"
 placeholder="Password"
+>
 
-«»
+</div>
 
-</div><button
+<button
 id="loginButton"
 class="login-button"
 type="button"
-
-«»
-
+>
 ENTER
 </button>
 
-<p id="loginMessage"></p></div></section><!-- =========================
+<p id="loginMessage"></p>
+
+</div>
+
+</section>
+
+
+<!-- =========================
      ADMIN
-========================= --><section id="adminScreen"><main><section class="page-title"><p class="eyebrow">
+========================= -->
+
+<section id="adminScreen">
+
+<main>
+
+<section class="page-title">
+
+<p class="eyebrow">
 ADMIN
-</p><h1>
+</p>
+
+<h1>
 Compose.
-</h1></section><form
-id="blogForm"
-class="editor"
-><div class="field"><label>TITLE</label>
+</h1>
+
+</section>
+
+
+<form id="blogForm" class="editor">
+
+<div class="field">
+
+<label>TITLE</label>
 
 <input
 id="title"
 type="text"
 placeholder="Title"
 required
+>
 
-«»
+</div>
 
-</div><div class="field"><label>CATEGORY</label>
 
-<select id="category"><option value="Journal">Journal</option>
-<option value="Thoughts">Thoughts</option>
-<option value="Stories">Stories</option>
-<option value="Ideas">Ideas</option>
-<option value="Notes">Notes</option></select></div><div class="field"><label>CONTENT</label>
+<div class="field">
+
+<label>CATEGORY</label>
+
+<select id="category">
+
+<option value="Journal">
+Journal
+</option>
+
+<option value="Thoughts">
+Thoughts
+</option>
+
+<option value="Stories">
+Stories
+</option>
+
+<option value="Ideas">
+Ideas
+</option>
+
+<option value="Notes">
+Notes
+</option>
+
+</select>
+
+</div>
+
+
+<div class="field">
+
+<label>CONTENT</label>
 
 <textarea
 id="content"
 placeholder="Write..."
 required
-></textarea></div><div class="actions"><button
+></textarea>
+
+</div>
+
+
+<div class="actions">
+
+<button
 type="submit"
 class="publish"
-
-«»
-
+>
 PUBLISH
 </button>
 
-<div id="message"></div></div></form><section class="entries"><div class="entries-head"><h2>
+<div id="message"></div>
+
+</div>
+
+</form>
+
+
+<section class="entries">
+
+<div class="entries-head">
+
+<h2>
 Entries
-</h2><span
+</h2>
+
+<span
 id="entryCount"
 class="count"
-
-«»
-
+>
 LOADING
 </span>
 
-</div><div id="entriesList"></div></section></main></section><!-- =========================
+</div>
+
+<div id="entriesList"></div>
+
+</section>
+
+</main>
+
+</section>
+
+
+<!-- =========================
      EDIT MODAL
-========================= --><div
+========================= -->
+
+<div
 id="editModal"
 class="modal"
-><div class="modal-card"><div class="modal-decoration"><div class="circle one"></div>
+>
+
+<div class="modal-card">
+
+<div class="modal-decoration">
+
+<div class="circle one"></div>
 <div class="circle two"></div>
-<div class="circle three"></div></div><div class="modal-top"><span class="modal-label">
+<div class="circle three"></div>
+
+</div>
+
+
+<div class="modal-top">
+
+<span class="modal-label">
 EDIT / ENTRY
-</span><span
+</span>
+
+<span
 id="editNumber"
 class="modal-number"
-
-«»
-
+>
 —
 </span>
 
-</div><h2 class="modal-title">
+</div>
+
+
+<h2 class="modal-title">
 Refine.
-</h2><p class="modal-subtitle">
+</h2>
+
+<p class="modal-subtitle">
 Shape the thought. Keep the feeling.
-</p><div class="modal-field"><label>TITLE</label>
+</p>
+
+
+<div class="modal-field">
+
+<label>
+TITLE
+</label>
 
 <input
 id="editTitle"
 type="text"
+>
 
-«»
+</div>
 
-</div><div class="modal-field"><label>CONTENT</label>
+
+<div class="modal-field">
+
+<label>
+CONTENT
+</label>
 
 <textarea
 id="editContent"
-></textarea></div><div class="modal-footer"><p class="modal-note">
+></textarea>
+
+</div>
+
+
+<div class="modal-footer">
+
+<p class="modal-note">
 A quiet space<br>
 for better words.
-</p><div class="modal-buttons"><button
+</p>
+
+
+<div class="modal-buttons">
+
+<button
 type="button"
 class="modal-btn"
 id="cancelEdit"
-
-«»
-
+>
 CLOSE
 </button>
 
@@ -794,30 +962,50 @@ CLOSE
 type="button"
 class="modal-btn primary"
 id="saveEdit"
-
-«»
-
+>
 SAVE
 </button>
 
-</div></div></div></div><!-- =========================
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- =========================
      DELETE MODAL
-========================= --><div
+========================= -->
+
+<div
 id="deleteModal"
 class="modal"
-><div class="modal-card delete-card"><p class="modal-label">
+>
+
+<div class="modal-card delete-card">
+
+<p class="modal-label">
 REMOVE
-</p><h2 class="modal-title">
+</p>
+
+<h2 class="modal-title">
 Let go?
-</h2><p class="delete-text">
+</h2>
+
+<p class="delete-text">
 This entry will leave the notebook.
-</p><div class="modal-buttons"><button
+</p>
+
+
+<div class="modal-buttons">
+
+<button
 type="button"
 class="modal-btn"
 id="cancelDelete"
-
-«»
-
+>
 KEEP
 </button>
 
@@ -825,28 +1013,25 @@ KEEP
 type="button"
 class="modal-btn primary"
 id="confirmDelete"
-
-«»
-
+>
 REMOVE
 </button>
 
-</div></div></div><script>
+</div>
 
-/* =========================
-   API
-========================= */
+</div>
+
+</div>
+
+
+<script>
 
 const API =
-"https://thenotebook-production-fa3e.up.railway.app/api/blogs";
+"https://thenotebook-production-f6f5.up.railway.app/api/blogs";
 
 const LOGIN_API =
-"https://thenotebook-production-fa3e.up.railway.app/api/admin/login";
+"https://thenotebook-production-f6f5.up.railway.app/api/admin/login";
 
-
-/* =========================
-   ELEMENTS
-========================= */
 
 const loginScreen =
 document.getElementById("loginScreen");
@@ -860,17 +1045,6 @@ document.getElementById("loginButton");
 const loginMessage =
 document.getElementById("loginMessage");
 
-const form =
-document.getElementById("blogForm");
-
-const message =
-document.getElementById("message");
-
-const entriesList =
-document.getElementById("entriesList");
-
-const entryCount =
-document.getElementById("entryCount");
 
 const editModal =
 document.getElementById("editModal");
@@ -911,6 +1085,7 @@ async function(){
     .getElementById("password")
     .value;
 
+
     if(!username || !password){
 
         loginMessage.textContent =
@@ -919,8 +1094,12 @@ async function(){
         return;
     }
 
+
     loginButton.disabled = true;
-    loginButton.textContent = "ENTERING...";
+
+    loginButton.textContent =
+    "ENTERING...";
+
 
     try{
 
@@ -942,8 +1121,10 @@ async function(){
             }
         );
 
+
         const data =
         await response.json();
+
 
         if(!response.ok){
 
@@ -951,14 +1132,15 @@ async function(){
                 data.error ||
                 "Login failed."
             );
+
         }
+
 
         localStorage.setItem(
             "thenotebook_admin_token",
             data.token
         );
 
-        loginMessage.textContent = "";
 
         showAdmin();
 
@@ -974,7 +1156,28 @@ async function(){
     finally{
 
         loginButton.disabled = false;
-        loginButton.textContent = "ENTER";
+
+        loginButton.textContent =
+        "ENTER";
+
+    }
+
+});
+
+
+/* =========================
+   ENTER KEY LOGIN
+========================= */
+
+document
+.getElementById("password")
+.addEventListener(
+"keydown",
+function(event){
+
+    if(event.key === "Enter"){
+
+        loginButton.click();
 
     }
 
@@ -987,9 +1190,11 @@ async function(){
 
 function showAdmin(){
 
-    loginScreen.style.display = "none";
+    loginScreen.style.display =
+    "none";
 
-    adminScreen.style.display = "block";
+    adminScreen.style.display =
+    "block";
 
     loadEntries();
 
@@ -997,7 +1202,7 @@ function showAdmin(){
 
 
 /* =========================
-   AUTH
+   AUTH HEADER
 ========================= */
 
 function authHeaders(){
@@ -1007,12 +1212,15 @@ function authHeaders(){
         "thenotebook_admin_token"
     );
 
+
     return {
+
         "Content-Type":
         "application/json",
 
         "Authorization":
         "Bearer " + token
+
     };
 
 }
@@ -1022,11 +1230,14 @@ function authHeaders(){
    PUBLISH
 ========================= */
 
-form.addEventListener(
+document
+.getElementById("blogForm")
+.addEventListener(
 "submit",
 async function(event){
 
     event.preventDefault();
+
 
     const title =
     document
@@ -1034,10 +1245,12 @@ async function(event){
     .value
     .trim();
 
+
     const category =
     document
     .getElementById("category")
     .value;
+
 
     const content =
     document
@@ -1045,12 +1258,19 @@ async function(event){
     .value
     .trim();
 
+
+    const message =
+    document.getElementById("message");
+
+
     if(!title || !content){
         return;
     }
 
+
     message.textContent =
     "Publishing...";
+
 
     try{
 
@@ -1063,7 +1283,8 @@ async function(event){
                 headers:
                 authHeaders(),
 
-                body:JSON.stringify({
+                body:
+                JSON.stringify({
                     title,
                     category,
                     content
@@ -1071,15 +1292,19 @@ async function(event){
             }
         );
 
+
         const data =
         await response.json();
+
 
         if(response.status === 401){
 
             logout();
 
             return;
+
         }
+
 
         if(!response.ok){
 
@@ -1087,12 +1312,16 @@ async function(event){
                 data.error ||
                 "Unable to publish."
             );
+
         }
 
-        form.reset();
+
+        this.reset();
+
 
         message.textContent =
         "Published.";
+
 
         await loadEntries();
 
@@ -1120,19 +1349,32 @@ async function loadEntries(){
         const response =
         await fetch(API);
 
-        if(!response.ok){
 
-            throw new Error(
-                "Unable to load entries."
-            );
+        if(!response.ok){
+            throw new Error();
         }
+
 
         const blogs =
         await response.json();
 
-        entriesList.innerHTML = "";
 
-        entryCount.textContent =
+        const list =
+        document.getElementById(
+            "entriesList"
+        );
+
+
+        const count =
+        document.getElementById(
+            "entryCount"
+        );
+
+
+        list.innerHTML = "";
+
+
+        count.textContent =
         blogs.length === 1
         ? "01 ENTRY"
         : `${String(
@@ -1142,7 +1384,7 @@ async function loadEntries(){
 
         if(blogs.length === 0){
 
-            entriesList.innerHTML = `
+            list.innerHTML = `
                 <div style="
                     padding:30px 0;
                     color:#68758a;
@@ -1154,23 +1396,27 @@ async function loadEntries(){
             `;
 
             return;
+
         }
 
 
         blogs.forEach(
         (blog,index)=>{
 
-            const entry =
-            document.createElement("div");
+            const item =
+            document.createElement(
+                "div"
+            );
 
-            entry.className =
+
+            item.className =
             "entry";
 
 
-            entry.innerHTML = `
+            item.innerHTML = `
 
                 <div class="entry-number">
-                    ${String(index+1)
+                    ${String(index + 1)
                     .padStart(2,"0")}
                 </div>
 
@@ -1190,13 +1436,4 @@ async function loadEntries(){
                         )}
                     </div>
 
-                </div>
-
-                <div class="entry-actions">
-
-                    <button
-                        type="button"
-                        class="edit-btn"
-                    >
-                        EDIT
-                    <
+                <
