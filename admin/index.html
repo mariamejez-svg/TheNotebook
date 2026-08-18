@@ -1,5 +1,3 @@
-TheNotebook Admin — Complete "index.html"
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,17 +6,13 @@ TheNotebook Admin — Complete "index.html"
 <title>TheNotebook — Admin</title>
 
 <style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
+*{margin:0;padding:0;box-sizing:border-box}
 
 body{
     min-height:100vh;
     background:
-        radial-gradient(circle at 85% 5%,rgba(80,125,190,.12),transparent 30%),
-        #05070c;
+    radial-gradient(circle at 85% 5%,rgba(80,125,190,.12),transparent 30%),
+    #05070c;
     color:#f3f5f8;
     font-family:Georgia,"Times New Roman",serif;
 }
@@ -32,49 +26,23 @@ header{
     border-bottom:1px solid #192130;
 }
 
-.brand{
-    display:flex;
-    align-items:center;
-    gap:13px;
-}
+.brand{display:flex;align-items:center;gap:13px}
 
-.brand-shape{
-    position:relative;
-    width:34px;
-    height:34px;
-}
+.brand-shape{position:relative;width:34px;height:34px}
 
 .brand-shape span{
     position:absolute;
-    width:19px;
-    height:19px;
+    width:19px;height:19px;
     border-radius:50%;
     border:1px solid rgba(145,178,227,.6);
 }
 
-.brand-shape span:nth-child(1){
-    top:0;
-    left:7px;
-}
+.brand-shape span:nth-child(1){top:0;left:7px}
+.brand-shape span:nth-child(2){top:10px;left:0}
+.brand-shape span:nth-child(3){top:10px;left:14px}
 
-.brand-shape span:nth-child(2){
-    top:10px;
-    left:0;
-}
-
-.brand-shape span:nth-child(3){
-    top:10px;
-    left:14px;
-}
-
-.logo{
-    font-size:23px;
-    letter-spacing:-.5px;
-}
-
-.logo span{
-    color:#91b2e3;
-}
+.logo{font-size:23px;letter-spacing:-.5px}
+.logo span{color:#91b2e3}
 
 .back{
     color:#68758a;
@@ -84,10 +52,24 @@ header{
     letter-spacing:3px;
 }
 
-main{
-    width:min(1050px,86%);
-    margin:auto;
-    padding:90px 0 120px;
+/* LOGIN */
+
+#loginScreen{
+    min-height:calc(100vh - 82px);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:30px;
+}
+
+.login-box{
+    width:min(410px,100%);
+    padding:50px 42px;
+    border:1px solid #1b2637;
+    background:
+    radial-gradient(circle at 90% 0%,rgba(120,165,225,.1),transparent 35%),
+    #080c14;
+    box-shadow:0 35px 100px rgba(0,0,0,.55);
 }
 
 .eyebrow{
@@ -98,9 +80,77 @@ main{
     margin-bottom:18px;
 }
 
-.page-title{
-    margin-bottom:60px;
+.login-title{
+    font-size:48px;
+    font-weight:400;
+    letter-spacing:-4px;
+    margin-bottom:38px;
 }
+
+.login-field{margin-bottom:20px}
+
+label{
+    display:block;
+    font-family:Arial,sans-serif;
+    font-size:8px;
+    letter-spacing:3px;
+    color:#68758a;
+    margin-bottom:9px;
+}
+
+input,select,textarea{
+    width:100%;
+    background:#05080e;
+    color:#f4f5f7;
+    border:1px solid #1b2637;
+    outline:none;
+    padding:15px;
+}
+
+input:focus,select:focus,textarea:focus{
+    border-color:#91b2e3;
+}
+
+.login-input{
+    font-family:Arial,sans-serif;
+    font-size:13px;
+}
+
+.login-button,.publish{
+    width:100%;
+    border:0;
+    background:#edf1f6;
+    color:#05070c;
+    padding:15px;
+    font-family:Arial,sans-serif;
+    font-size:9px;
+    letter-spacing:3px;
+    cursor:pointer;
+    margin-top:8px;
+}
+
+.login-button:hover,.publish:hover{
+    background:#91b2e3;
+}
+
+#loginMessage{
+    font-family:Arial,sans-serif;
+    font-size:9px;
+    color:#a66d7b;
+    margin-top:15px;
+}
+
+/* ADMIN */
+
+#adminScreen{display:none}
+
+main{
+    width:min(1050px,86%);
+    margin:auto;
+    padding:90px 0 120px;
+}
+
+.page-title{margin-bottom:60px}
 
 h1{
     font-size:clamp(48px,7vw,78px);
@@ -113,45 +163,16 @@ h1{
     padding-top:35px;
 }
 
-.field{
-    margin-bottom:30px;
-}
+.field{margin-bottom:30px}
 
-label{
-    display:block;
+input,select,textarea{
     font-family:Arial,sans-serif;
-    font-size:8px;
-    letter-spacing:3px;
-    color:#68758a;
-    margin-bottom:10px;
-}
-
-input,
-select,
-textarea{
-    width:100%;
-    background:#070a11;
-    color:#f4f5f7;
-    border:1px solid #1b2637;
-    outline:none;
-    padding:16px;
-}
-
-input:focus,
-select:focus,
-textarea:focus{
-    border-color:#91b2e3;
+    font-size:13px;
 }
 
 input{
     font-family:Georgia,"Times New Roman",serif;
     font-size:20px;
-}
-
-select,
-textarea{
-    font-family:Arial,sans-serif;
-    font-size:13px;
 }
 
 textarea{
@@ -167,18 +188,8 @@ textarea{
 }
 
 .publish{
-    border:0;
-    background:#edf1f6;
-    color:#05070c;
+    width:auto;
     padding:15px 25px;
-    font-family:Arial,sans-serif;
-    font-size:9px;
-    letter-spacing:3px;
-    cursor:pointer;
-}
-
-.publish:hover{
-    background:#91b2e3;
 }
 
 #message{
@@ -186,9 +197,6 @@ textarea{
     font-size:10px;
     color:#68758a;
 }
-
-
-/* ENTRIES */
 
 .entries{
     margin-top:110px;
@@ -222,15 +230,10 @@ textarea{
     align-items:center;
     padding:25px 10px;
     border-bottom:1px solid #192130;
-    transition:.3s;
 }
 
 .entry:hover{
-    background:linear-gradient(
-        90deg,
-        rgba(100,141,204,.045),
-        transparent
-    );
+    background:linear-gradient(90deg,rgba(100,141,204,.045),transparent);
 }
 
 .entry-number{
@@ -252,10 +255,7 @@ textarea{
     color:#68758a;
 }
 
-.entry-actions{
-    display:flex;
-    gap:8px;
-}
+.entry-actions{display:flex;gap:8px}
 
 .entry-actions button{
     border:1px solid #263247;
@@ -266,7 +266,6 @@ textarea{
     font-size:8px;
     letter-spacing:1px;
     cursor:pointer;
-    transition:.25s;
 }
 
 .entry-actions button:hover{
@@ -274,285 +273,27 @@ textarea{
     color:#91b2e3;
 }
 
-
-/* MODAL */
-
-.modal{
-    position:fixed;
-    inset:0;
-    display:none;
-    align-items:center;
-    justify-content:center;
-    padding:20px;
-    background:rgba(2,4,9,.82);
-    backdrop-filter:blur(16px);
-    -webkit-backdrop-filter:blur(16px);
-    z-index:1000;
-}
-
-.modal.show{
-    display:flex;
-}
-
-.modal-card{
-    position:relative;
-    width:min(760px,100%);
-    max-height:90vh;
-    overflow:auto;
-    padding:52px 55px 45px;
-
-    background:
-        radial-gradient(
-            circle at 90% 5%,
-            rgba(120,165,225,.13),
-            transparent 28%
-        ),
-        #080c14;
-
-    border:1px solid #29384d;
-
-    box-shadow:
-        0 40px 120px rgba(0,0,0,.75);
-
-    animation:appear .3s ease;
-}
-
-@keyframes appear{
-    from{
-        opacity:0;
-        transform:translateY(18px) scale(.98);
-    }
-
-    to{
-        opacity:1;
-        transform:translateY(0) scale(1);
-    }
-}
-
-.modal-decoration{
-    position:absolute;
-    top:20px;
-    right:25px;
-    width:110px;
-    height:110px;
-    pointer-events:none;
-}
-
-.circle{
-    position:absolute;
-    border:1px solid rgba(145,178,227,.16);
-    border-radius:50%;
-}
-
-.circle.one{
-    width:100px;
-    height:45px;
-    top:25px;
-    left:5px;
-    transform:rotate(-30deg);
-}
-
-.circle.two{
-    width:100px;
-    height:45px;
-    top:25px;
-    left:5px;
-    transform:rotate(30deg);
-}
-
-.circle.three{
-    width:55px;
-    height:55px;
-    top:20px;
-    left:28px;
-}
-
-.modal-top{
-    display:flex;
-    justify-content:space-between;
-    padding-bottom:20px;
-    margin-bottom:35px;
-    border-bottom:1px solid #1c2839;
-}
-
-.modal-label{
-    font-family:Arial,sans-serif;
-    font-size:8px;
-    letter-spacing:4px;
-    color:#91b2e3;
-}
-
-.modal-number{
-    font-family:Arial,sans-serif;
-    font-size:8px;
-    color:#46536a;
-    letter-spacing:2px;
-}
-
-.modal-title{
-    font-size:clamp(42px,6vw,65px);
-    font-weight:400;
-    letter-spacing:-4px;
-    margin-bottom:12px;
-}
-
-.modal-subtitle{
-    font-family:Arial,sans-serif;
-    font-size:10px;
-    color:#68758a;
-    margin-bottom:35px;
-}
-
-.modal-field{
-    margin-bottom:25px;
-}
-
-.modal-field input,
-.modal-field textarea{
-    background:#05080e;
-    border:1px solid #1d2a3c;
-}
-
-.modal-field input{
-    font-family:Georgia,"Times New Roman",serif;
-    font-size:21px;
-}
-
-.modal-field textarea{
-    min-height:220px;
-    font-family:Georgia,"Times New Roman",serif;
-    font-size:15px;
-    line-height:1.8;
-    resize:vertical;
-}
-
-.modal-footer{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:20px;
-    padding-top:25px;
-    margin-top:30px;
-    border-top:1px solid #1c2839;
-}
-
-.modal-note{
-    font-family:Arial,sans-serif;
-    font-size:8px;
-    line-height:1.7;
-    letter-spacing:1px;
-    color:#46536a;
-}
-
-.modal-buttons{
-    display:flex;
-    gap:9px;
-}
-
-.modal-btn{
-    min-width:95px;
-    padding:13px 18px;
-    border:1px solid #29374c;
+.logout{
+    border:0;
     background:transparent;
-    color:#718096;
+    color:#68758a;
     font-family:Arial,sans-serif;
     font-size:8px;
-    letter-spacing:2px;
+    letter-spacing:3px;
     cursor:pointer;
 }
 
-.modal-btn:hover{
-    border-color:#91b2e3;
-    color:#91b2e3;
-}
-
-.modal-btn.primary{
-    background:#edf1f6;
-    color:#05070c;
-    border-color:#edf1f6;
-}
-
-.modal-btn.primary:hover{
-    background:#91b2e3;
-    border-color:#91b2e3;
-}
-
-
-/* DELETE */
-
-.delete-card{
-    width:min(450px,100%);
-    text-align:center;
-}
-
-.delete-card .modal-title{
-    margin-top:20px;
-}
-
-.delete-text{
-    font-family:Arial,sans-serif;
-    color:#68758a;
-    font-size:12px;
-    line-height:1.7;
-    margin-bottom:25px;
-}
-
-
-/* MOBILE */
+.logout:hover{color:#91b2e3}
 
 @media(max-width:650px){
-
-    header{
-        height:70px;
-        padding:0 6%;
-    }
-
-    .logo{
-        font-size:20px;
-    }
-
-    main{
-        width:88%;
-        padding:65px 0 80px;
-    }
-
-    .actions{
-        align-items:flex-start;
-        flex-direction:column;
-        gap:15px;
-    }
-
-    .entry{
-        grid-template-columns:35px 1fr;
-        gap:12px;
-    }
-
-    .entry-actions{
-        grid-column:2;
-    }
-
-    .modal-card{
-        padding:35px 22px 30px;
-    }
-
-    .modal-decoration{
-        transform:scale(.7);
-        right:5px;
-        top:5px;
-    }
-
-    .modal-footer{
-        align-items:flex-start;
-        flex-direction:column;
-    }
-
-    .modal-buttons{
-        width:100%;
-    }
-
-    .modal-btn{
-        flex:1;
-    }
+    header{height:70px;padding:0 6%}
+    .logo{font-size:20px}
+    main{width:88%;padding:65px 0 80px}
+    .actions{align-items:flex-start;flex-direction:column;gap:15px}
+    .publish{width:100%}
+    .entry{grid-template-columns:35px 1fr;gap:12px}
+    .entry-actions{grid-column:2}
+    .login-box{padding:40px 25px}
 }
 </style>
 </head>
@@ -562,7 +303,6 @@ textarea{
 <header>
 
 <div class="brand">
-
 <div class="brand-shape">
 <span></span>
 <span></span>
@@ -572,15 +312,71 @@ textarea{
 <div class="logo">
 The<span>Notebook</span>
 </div>
-
 </div>
 
 <a href="https://the-notebook-taupe.vercel.app/" class="back">
-    + SITE
++ SITE
 </a>
 
 </header>
 
+
+<!-- LOGIN -->
+
+<section id="loginScreen">
+
+<div class="login-box">
+
+<p class="eyebrow">THE NOTEBOOK</p>
+
+<h1 class="login-title">Welcome.</h1>
+
+<div class="login-field">
+
+<label>USERNAME</label>
+
+<input
+id="username"
+class="login-input"
+type="text"
+autocomplete="username"
+placeholder="Username"
+>
+
+</div>
+
+<div class="login-field">
+
+<label>PASSWORD</label>
+
+<input
+id="password"
+class="login-input"
+type="password"
+autocomplete="current-password"
+placeholder="Password"
+>
+
+</div>
+
+<button
+id="loginButton"
+class="login-button"
+type="button"
+>
+ENTER
+</button>
+
+<p id="loginMessage"></p>
+
+</div>
+
+</section>
+
+
+<!-- ADMIN -->
+
+<section id="adminScreen">
 
 <main>
 
@@ -608,7 +404,6 @@ required
 
 </div>
 
-
 <div class="field">
 
 <label>CATEGORY</label>
@@ -625,7 +420,6 @@ required
 
 </div>
 
-
 <div class="field">
 
 <label>CONTENT</label>
@@ -637,7 +431,6 @@ required
 ></textarea>
 
 </div>
-
 
 <div class="actions">
 
@@ -673,213 +466,227 @@ LOADING
 
 </main>
 
-
-<!-- EDIT -->
-
-<div id="editModal" class="modal">
-
-<div class="modal-card">
-
-<div class="modal-decoration">
-<div class="circle one"></div>
-<div class="circle two"></div>
-<div class="circle three"></div>
-</div>
-
-<div class="modal-top">
-
-<span class="modal-label">
-EDIT / ENTRY
-</span>
-
-<span id="editNumber" class="modal-number">
-—
-</span>
-
-</div>
-
-<h2 class="modal-title">
-Refine.
-</h2>
-
-<p class="modal-subtitle">
-Shape the thought. Keep the feeling.
-</p>
-
-
-<div class="modal-field">
-
-<label>TITLE</label>
-
-<input id="editTitle" type="text">
-
-</div>
-
-
-<div class="modal-field">
-
-<label>CONTENT</label>
-
-<textarea id="editContent"></textarea>
-
-</div>
-
-
-<div class="modal-footer">
-
-<p class="modal-note">
-A quiet space<br>
-for better words.
-</p>
-
-<div class="modal-buttons">
-
-<button
-type="button"
-class="modal-btn"
-id="cancelEdit"
->
-CLOSE
-</button>
-
-<button
-type="button"
-class="modal-btn primary"
-id="saveEdit"
->
-SAVE
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-
-<!-- DELETE -->
-
-<div id="deleteModal" class="modal">
-
-<div class="modal-card delete-card">
-
-<p class="modal-label">
-REMOVE
-</p>
-
-<h2 class="modal-title">
-Let go?
-</h2>
-
-<p class="delete-text">
-This entry will leave the notebook.
-</p>
-
-<div class="modal-buttons">
-
-<button
-type="button"
-class="modal-btn"
-id="cancelDelete"
->
-KEEP
-</button>
-
-<button
-type="button"
-class="modal-btn primary"
-id="confirmDelete"
->
-REMOVE
-</button>
-
-</div>
-
-</div>
-
-</div>
+</section>
 
 
 <script>
 
-const API = "https://thenotebook-production-f6f5.up.railway.app/api/blogs";
+const API =
+"https://thenotebook-production-f6f5.up.railway.app/api/blogs";
 
-const form = document.getElementById("blogForm");
-const message = document.getElementById("message");
-const entriesList = document.getElementById("entriesList");
-const entryCount = document.getElementById("entryCount");
+const LOGIN_API =
+"https://thenotebook-production-f6f5.up.railway.app/api/admin/login";
 
-const editModal = document.getElementById("editModal");
-const deleteModal = document.getElementById("deleteModal");
 
-const editTitle = document.getElementById("editTitle");
-const editContent = document.getElementById("editContent");
-const editNumber = document.getElementById("editNumber");
+const loginScreen =
+document.getElementById("loginScreen");
 
-let editingId = null;
-let deletingId = null;
+const adminScreen =
+document.getElementById("adminScreen");
+
+const loginButton =
+document.getElementById("loginButton");
+
+const loginMessage =
+document.getElementById("loginMessage");
+
+
+/* =========================
+   LOGIN
+========================= */
+
+loginButton.addEventListener(
+"click",
+async function(){
+
+    const username =
+        document.getElementById("username")
+        .value.trim();
+
+    const password =
+        document.getElementById("password")
+        .value;
+
+    if(!username || !password){
+
+        loginMessage.textContent =
+        "Please enter both fields.";
+
+        return;
+    }
+
+    loginButton.disabled = true;
+    loginButton.textContent = "ENTERING...";
+
+    try{
+
+        const response =
+        await fetch(
+            LOGIN_API,
+            {
+                method:"POST",
+                headers:{
+                    "Content-Type":
+                    "application/json"
+                },
+                body:JSON.stringify({
+                    username,
+                    password
+                })
+            }
+        );
+
+        const data =
+        await response.json();
+
+        if(!response.ok){
+
+            throw new Error(
+                data.error ||
+                "Login failed."
+            );
+        }
+
+        localStorage.setItem(
+            "thenotebook_admin_token",
+            data.token
+        );
+
+        showAdmin();
+
+    }
+    catch(error){
+
+        console.error(error);
+
+        loginMessage.textContent =
+        "Invalid username or password.";
+
+    }
+    finally{
+
+        loginButton.disabled = false;
+        loginButton.textContent = "ENTER";
+
+    }
+
+});
+
+
+/* =========================
+   SHOW ADMIN
+========================= */
+
+function showAdmin(){
+
+    loginScreen.style.display = "none";
+    adminScreen.style.display = "block";
+
+    loadEntries();
+
+}
+
+
+/* =========================
+   AUTH HEADER
+========================= */
+
+function authHeaders(){
+
+    const token =
+    localStorage.getItem(
+        "thenotebook_admin_token"
+    );
+
+    return {
+        "Content-Type":"application/json",
+        "Authorization":
+        "Bearer " + token
+    };
+
+}
 
 
 /* =========================
    PUBLISH
 ========================= */
 
-form.addEventListener("submit", async (event) => {
+document
+.getElementById("blogForm")
+.addEventListener(
+"submit",
+async function(event){
 
     event.preventDefault();
 
     const title =
-        document.getElementById("title").value.trim();
+    document.getElementById("title")
+    .value.trim();
 
     const category =
-        document.getElementById("category").value;
+    document.getElementById("category")
+    .value;
 
     const content =
-        document.getElementById("content").value.trim();
+    document.getElementById("content")
+    .value.trim();
 
-    if (!title || !content) {
+    const message =
+    document.getElementById("message");
+
+    if(!title || !content){
         return;
     }
 
     message.textContent = "Publishing...";
 
-    try {
+    try{
 
-        const response = await fetch(API, {
+        const response =
+        await fetch(
+            API,
+            {
+                method:"POST",
+                headers:authHeaders(),
+                body:JSON.stringify({
+                    title,
+                    category,
+                    content
+                })
+            }
+        );
 
-            method: "POST",
+        const data =
+        await response.json();
 
-            headers: {
-                "Content-Type": "application/json"
-            },
+        if(response.status === 401){
 
-            body: JSON.stringify({
-                title,
-                category,
-                content
-            })
-
-        });
-
-        const data = await response.json();
-
-        if (!response.ok) {
-            throw new Error(data.error || "Unable to publish.");
+            logout();
+            return;
         }
 
-        form.reset();
+        if(!response.ok){
 
-        message.textContent = "Published.";
+            throw new Error(
+                data.error ||
+                "Unable to publish."
+            );
+        }
+
+        this.reset();
+
+        message.textContent =
+        "Published.";
 
         await loadEntries();
 
-    } catch (error) {
+    }
+    catch(error){
 
         console.error(error);
 
-        message.textContent = "Unable.";
+        message.textContent =
+        "Unable to publish.";
 
     }
 
@@ -890,70 +697,84 @@ form.addEventListener("submit", async (event) => {
    LOAD ENTRIES
 ========================= */
 
-async function loadEntries() {
+async function loadEntries(){
 
-    try {
+    try{
 
-        const response = await fetch(API);
+        const response =
+        await fetch(API);
 
-        if (!response.ok) {
-            throw new Error("Unable to load entries.");
+        if(!response.ok){
+            throw new Error();
         }
 
-        const data = await response.json();
+        const blogs =
+        await response.json();
 
-        const blogs = Array.isArray(data)
-            ? data
-            : Array.isArray(data.blogs)
-            ? data.blogs
-            : [];
+        const list =
+        document.getElementById(
+            "entriesList"
+        );
 
-        entriesList.innerHTML = "";
+        const count =
+        document.getElementById(
+            "entryCount"
+        );
 
-        entryCount.textContent =
-            blogs.length === 1
-            ? "01 ENTRY"
-            : `${String(blogs.length).padStart(2,"0")} ENTRIES`;
+        list.innerHTML = "";
 
+        count.textContent =
+        blogs.length === 1
+        ? "01 ENTRY"
+        : `${String(
+            blogs.length
+        ).padStart(2,"0")} ENTRIES`;
 
-        if (blogs.length === 0) {
+        if(blogs.length === 0){
 
-            entriesList.innerHTML = `
+            list.innerHTML = `
                 <div style="
-                    padding:30px 0;
-                    color:#68758a;
-                    font-family:Arial,sans-serif;
-                    font-size:11px;
+                padding:30px 0;
+                color:#68758a;
+                font-family:Arial,sans-serif;
+                font-size:11px;
                 ">
-                    No entries yet.
+                No entries yet.
                 </div>
             `;
 
             return;
         }
 
+        blogs.forEach(
+        (blog,index)=>{
 
-        blogs.forEach((blog, index) => {
+            const item =
+            document.createElement("div");
 
-            const entry = document.createElement("div");
+            item.className = "entry";
 
-            entry.className = "entry";
-
-
-            entry.innerHTML = `
+            item.innerHTML = `
 
                 <div class="entry-number">
-                    ${String(index + 1).padStart(2,"0")}
+                ${String(index+1)
+                .padStart(2,"0")}
                 </div>
 
                 <div>
 
                     <div class="entry-title">
-                        ${escapeHTML(blog.title || "Untitled")}
+                    ${escapeHTML(
+                        blog.title ||
+                        "Untitled"
+                    )}
                     </div>
 
                     <div class="entry-meta">
-                        ${escapeHTML(blog.category || "Journal")}
+                    ${escapeHTML(
+                        blog.category ||
+                        "Journal"
+                    )}
                     </div>
 
                 </div>
@@ -961,64 +782,60 @@ async function loadEntries() {
                 <div class="entry-actions">
 
                     <button
-                        type="button"
-                        class="edit-btn"
+                    type="button"
+                    class="edit-btn"
                     >
-                        EDIT
+                    EDIT
                     </button>
 
                     <button
-                        type="button"
-                        class="delete-btn"
+                    type="button"
+                    class="delete-btn"
                     >
-                        DELETE
+                    DELETE
                     </button>
 
                 </div>
-
             `;
 
+            item
+            .querySelector(".edit-btn")
+            .addEventListener(
+            "click",
+            ()=>editEntry(blog)
+            );
 
-            entry
-                .querySelector(".edit-btn")
-                .addEventListener("click", () => {
+            item
+            .querySelector(".delete-btn")
+            .addEventListener(
+            "click",
+            ()=>deleteEntry(blog.id)
+            );
 
-                    openEdit(blog, index + 1);
-
-                });
-
-
-            entry
-                .querySelector(".delete-btn")
-                .addEventListener("click", () => {
-
-                    openDelete(blog.id);
-
-                });
-
-
-            entriesList.appendChild(entry);
+            list.appendChild(item);
 
         });
 
+    }
+    catch(error){
 
-    } catch (error) {
+        console.error(error);
 
-        console.error("Entries error:", error);
-
-        entriesList.innerHTML = `
+        document.getElementById(
+            "entriesList"
+        ).innerHTML = `
             <div style="
-                padding:30px 0;
-                color:#d87878;
-                font-family:Arial,sans-serif;
-                font-size:11px;
+            padding:30px 0;
+            color:#d87878;
+            font-family:Arial,sans-serif;
+            font-size:11px;
             ">
-                Unable to load entries.
+            Unable to load entries.
             </div>
         `;
 
-        entryCount.textContent = "OFFLINE";
     }
+
 }
 
 
@@ -1026,89 +843,80 @@ async function loadEntries() {
    EDIT
 ========================= */
 
-function openEdit(blog, number) {
+async function editEntry(blog){
 
-    editingId = blog.id;
+    const title =
+    prompt(
+        "Edit title:",
+        blog.title
+    );
 
-    editTitle.value = blog.title || "";
-
-    editContent.value = blog.content || "";
-
-    editNumber.textContent =
-        String(number).padStart(2,"0");
-
-    editModal.classList.add("show");
-
-    setTimeout(() => {
-        editTitle.focus();
-    }, 150);
-}
-
-
-function closeEdit() {
-
-    editingId = null;
-
-    editModal.classList.remove("show");
-}
-
-
-async function saveEditEntry() {
-
-    if (!editingId) {
+    if(title === null){
         return;
     }
 
-    const title = editTitle.value.trim();
+    const content =
+    prompt(
+        "Edit content:",
+        blog.content
+    );
 
-    const content = editContent.value.trim();
-
-    if (!title || !content) {
+    if(content === null){
         return;
     }
 
-    try {
+    if(!title.trim() || !content.trim()){
+        return;
+    }
 
-        const response = await fetch(
-            `${API}/${editingId}`,
+    try{
+
+        const response =
+        await fetch(
+            `${API}/${blog.id}`,
             {
-                method: "PUT",
-
-                headers: {
-                    "Content-Type": "application/json"
-                },
-
-                body: JSON.stringify({
-                    title,
-                    content
+                method:"PUT",
+                headers:authHeaders(),
+                body:JSON.stringify({
+                    title:title.trim(),
+                    content:content.trim(),
+                    category:
+                    blog.category ||
+                    "Journal"
                 })
             }
         );
 
+        const data =
+        await response.json();
 
-        const data = await response.json();
+        if(response.status === 401){
 
-        if (!response.ok) {
-
-            throw new Error(
-                data.error || "Unable to update."
-            );
-
+            logout();
+            return;
         }
 
+        if(!response.ok){
 
-        closeEdit();
+            throw new Error(
+                data.error ||
+                "Unable to update."
+            );
+        }
 
         await loadEntries();
 
+    }
+    catch(error){
 
-    } catch (error) {
+        console.error(error);
 
-        console.error("Edit error:", error);
-
-        alert("Unable to update entry.");
+        alert(
+            "Unable to update entry."
+        );
 
     }
+
 }
 
 
@@ -1116,147 +924,112 @@ async function saveEditEntry() {
    DELETE
 ========================= */
 
-function openDelete(id) {
+async function deleteEntry(id){
 
-    deletingId = id;
+    const confirmed =
+    confirm(
+        "Remove this entry from TheNotebook?"
+    );
 
-    deleteModal.classList.add("show");
-}
-
-
-function closeDelete() {
-
-    deletingId = null;
-
-    deleteModal.classList.remove("show");
-}
-
-
-async function confirmDeleteEntry() {
-
-    if (!deletingId) {
+    if(!confirmed){
         return;
     }
 
+    try{
 
-    try {
-
-        const response = await fetch(
-            `${API}/${deletingId}`,
+        const response =
+        await fetch(
+            `${API}/${id}`,
             {
-                method: "DELETE"
+                method:"DELETE",
+                headers:authHeaders()
             }
         );
 
+        const data =
+        await response.json();
 
-        const data = await response.json();
+        if(response.status === 401){
 
-
-        if (!response.ok) {
-
-            throw new Error(
-                data.error || "Unable to delete."
-            );
-
+            logout();
+            return;
         }
 
+        if(!response.ok){
 
-        closeDelete();
+            throw new Error(
+                data.error ||
+                "Unable to delete."
+            );
+        }
 
         await loadEntries();
 
+    }
+    catch(error){
 
-    } catch (error) {
+        console.error(error);
 
-        console.error("Delete error:", error);
-
-        alert("Unable to delete entry.");
+        alert(
+            "Unable to delete entry."
+        );
 
     }
+
 }
 
 
 /* =========================
-   BUTTONS
+   LOGOUT
 ========================= */
 
-document
-    .getElementById("cancelEdit")
-    .addEventListener("click", closeEdit);
+function logout(){
 
+    localStorage.removeItem(
+        "thenotebook_admin_token"
+    );
 
-document
-    .getElementById("saveEdit")
-    .addEventListener("click", saveEditEntry);
+    adminScreen.style.display = "none";
+    loginScreen.style.display = "flex";
 
+    document.getElementById(
+        "password"
+    ).value = "";
 
-document
-    .getElementById("cancelDelete")
-    .addEventListener("click", closeDelete);
-
-
-document
-    .getElementById("confirmDelete")
-    .addEventListener("click", confirmDeleteEntry);
-
-
-/* =========================
-   BACKDROP
-========================= */
-
-editModal.addEventListener("click", (event) => {
-
-    if (event.target === editModal) {
-        closeEdit();
-    }
-
-});
-
-
-deleteModal.addEventListener("click", (event) => {
-
-    if (event.target === deleteModal) {
-        closeDelete();
-    }
-
-});
-
-
-/* =========================
-   ESC
-========================= */
-
-document.addEventListener("keydown", (event) => {
-
-    if (event.key === "Escape") {
-
-        closeEdit();
-        closeDelete();
-
-    }
-
-});
+}
 
 
 /* =========================
    SECURITY
 ========================= */
 
-function escapeHTML(text) {
+function escapeHTML(text){
 
-    const div = document.createElement("div");
+    const div =
+    document.createElement("div");
 
-    div.textContent = text;
+    div.textContent =
+    text || "";
 
     return div.innerHTML;
+
 }
 
 
 /* =========================
-   START
+   AUTO LOGIN
 ========================= */
 
-loadEntries();
+const savedToken =
+localStorage.getItem(
+    "thenotebook_admin_token"
+);
+
+if(savedToken){
+
+    showAdmin();
+
+}
 
 </script>
 
