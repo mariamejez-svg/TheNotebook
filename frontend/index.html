@@ -1263,7 +1263,77 @@ async function loadBlogs() {
     }  
   
 }  
-  
+  /* =========================
+   SEARCH
+========================= */
+
+searchInput.addEventListener(
+    "input",
+    function(){
+
+        const query =
+            searchInput.value
+                .trim()
+                .toLowerCase();
+
+        const cards =
+            blogList.querySelectorAll(
+                ".blog-card"
+            );
+
+        let visible = 0;
+
+        cards.forEach(
+            function(card){
+
+                const title =
+                    card
+                        .querySelector(".title")
+                        ?.textContent
+                        .toLowerCase() || "";
+
+                const category =
+                    card
+                        .querySelector(".category")
+                        ?.textContent
+                        .toLowerCase() || "";
+
+                const matches =
+                    title.includes(query) ||
+                    category.includes(query);
+
+                card.style.display =
+                    matches ? "grid" : "none";
+
+                if(matches){
+                    visible++;
+                }
+
+            }
+        );
+
+        if(query){
+
+            entryCount.textContent =
+                visible === 1
+                    ? "01 RESULT"
+                    : `${String(visible).padStart(2,"0")} RESULTS`;
+
+        }
+        else{
+
+            const total =
+                cards.length;
+
+            entryCount.textContent =
+                total === 1
+                    ? "01 ENTRY"
+                    : `${String(total).padStart(2,"0")} ENTRIES`;
+
+        }
+
+    }
+);
   
   
 /* =========================  
