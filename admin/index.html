@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>TheNotebook — Admin</title>
 
 <style>
@@ -12,14 +13,34 @@
     box-sizing:border-box;
 }
 
+:root{
+    --bg:#05070c;
+    --panel:#080c14;
+    --panel2:#0b1019;
+    --line:#1b2637;
+    --line2:#263247;
+    --text:#f3f5f8;
+    --muted:#68758a;
+    --accent:#91b2e3;
+    --danger:#c77b86;
+}
+
 body{
     min-height:100vh;
     background:
-        radial-gradient(circle at 85% 5%,rgba(80,125,190,.12),transparent 30%),
-        #05070c;
-    color:#f3f5f8;
+        radial-gradient(
+            circle at 85% 5%,
+            rgba(80,125,190,.12),
+            transparent 30%
+        ),
+        var(--bg);
+    color:var(--text);
     font-family:Georgia,"Times New Roman",serif;
 }
+
+/* =========================
+   HEADER
+========================= */
 
 header{
     height:82px;
@@ -27,7 +48,7 @@ header{
     display:flex;
     align-items:center;
     justify-content:space-between;
-    border-bottom:1px solid #192130;
+    border-bottom:1px solid var(--line);
 }
 
 .brand{
@@ -71,51 +92,20 @@ header{
 }
 
 .logo span{
-    color:#91b2e3;
+    color:var(--accent);
 }
 
 .back{
-    color:#68758a;
+    color:var(--muted);
     text-decoration:none;
     font-family:Arial,sans-serif;
     font-size:9px;
     letter-spacing:3px;
 }
 
-button,
-input,
-select,
-textarea{
-    font:inherit;
+.back:hover{
+    color:var(--accent);
 }
-
-input,
-select,
-textarea{
-    width:100%;
-    background:#05080e;
-    color:#f4f5f7;
-    border:1px solid #1b2637;
-    outline:none;
-    padding:15px;
-}
-
-input:focus,
-select:focus,
-textarea:focus{
-    border-color:#91b2e3;
-    box-shadow:0 0 0 1px rgba(145,178,227,.08);
-}
-
-label{
-    display:block;
-    font-family:Arial,sans-serif;
-    font-size:8px;
-    letter-spacing:3px;
-    color:#68758a;
-    margin-bottom:9px;
-}
-
 
 /* =========================
    LOGIN
@@ -126,17 +116,20 @@ label{
     display:flex;
     align-items:center;
     justify-content:center;
-    padding:35px 20px;
+    padding:30px;
 }
 
 .login-box{
-    position:relative;
     width:min(410px,100%);
     padding:50px 42px;
-    border:1px solid #1b2637;
+    border:1px solid var(--line);
     background:
-        radial-gradient(circle at 90% 0%,rgba(120,165,225,.10),transparent 35%),
-        #080c14;
+        radial-gradient(
+            circle at 90% 0%,
+            rgba(120,165,225,.1),
+            transparent 35%
+        ),
+        var(--panel);
     box-shadow:0 35px 100px rgba(0,0,0,.55);
 }
 
@@ -144,7 +137,7 @@ label{
     font-family:Arial,sans-serif;
     font-size:8px;
     letter-spacing:5px;
-    color:#91b2e3;
+    color:var(--accent);
     margin-bottom:18px;
 }
 
@@ -159,6 +152,34 @@ label{
     margin-bottom:20px;
 }
 
+label{
+    display:block;
+    font-family:Arial,sans-serif;
+    font-size:8px;
+    letter-spacing:3px;
+    color:var(--muted);
+    margin-bottom:9px;
+}
+
+input,
+select,
+textarea{
+    width:100%;
+    background:#05080e;
+    color:var(--text);
+    border:1px solid var(--line);
+    outline:none;
+    padding:15px;
+    transition:.2s ease;
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+    border-color:var(--accent);
+    box-shadow:0 0 0 1px rgba(145,178,227,.08);
+}
+
 .login-input{
     font-family:Arial,sans-serif;
     font-size:13px;
@@ -166,6 +187,7 @@ label{
 
 .login-button,
 .publish{
+    width:100%;
     border:0;
     background:#edf1f6;
     color:#05070c;
@@ -174,32 +196,28 @@ label{
     font-size:9px;
     letter-spacing:3px;
     cursor:pointer;
-    transition:.25s;
-}
-
-.login-button{
-    width:100%;
     margin-top:8px;
+    transition:.2s ease;
 }
 
 .login-button:hover,
 .publish:hover{
-    background:#91b2e3;
+    background:var(--accent);
 }
 
-.login-button:disabled{
+.login-button:disabled,
+.publish:disabled{
     opacity:.55;
-    cursor:wait;
+    cursor:not-allowed;
 }
 
 #loginMessage{
-    min-height:14px;
     font-family:Arial,sans-serif;
     font-size:9px;
-    color:#a66d7b;
+    color:var(--danger);
     margin-top:15px;
+    min-height:14px;
 }
-
 
 /* =========================
    ADMIN
@@ -219,14 +237,14 @@ main{
     margin-bottom:60px;
 }
 
-h1{
+.page-title h1{
     font-size:clamp(48px,7vw,78px);
     font-weight:400;
     letter-spacing:-5px;
 }
 
 .editor{
-    border-top:1px solid #192130;
+    border-top:1px solid var(--line);
     padding-top:35px;
 }
 
@@ -234,21 +252,22 @@ h1{
     margin-bottom:30px;
 }
 
-input{
+.editor input{
     font-family:Georgia,"Times New Roman",serif;
     font-size:20px;
-}
-
-select,
-textarea{
-    font-family:Arial,sans-serif;
-    font-size:13px;
 }
 
 textarea{
     min-height:300px;
     resize:vertical;
     line-height:1.8;
+    font-family:Arial,sans-serif;
+    font-size:13px;
+}
+
+select{
+    font-family:Arial,sans-serif;
+    font-size:13px;
 }
 
 .actions{
@@ -259,32 +278,15 @@ textarea{
 }
 
 .publish{
+    width:auto;
     padding:15px 25px;
 }
 
 #message{
     font-family:Arial,sans-serif;
     font-size:10px;
-    color:#68758a;
+    color:var(--muted);
 }
-
-.logout{
-    border:1px solid #263247;
-    background:transparent;
-    color:#68758a;
-    padding:10px 14px;
-    font-family:Arial,sans-serif;
-    font-size:8px;
-    letter-spacing:2px;
-    cursor:pointer;
-    transition:.25s;
-}
-
-.logout:hover{
-    border-color:#91b2e3;
-    color:#91b2e3;
-}
-
 
 /* =========================
    ENTRIES
@@ -292,7 +294,7 @@ textarea{
 
 .entries{
     margin-top:110px;
-    border-top:1px solid #192130;
+    border-top:1px solid var(--line);
     padding-top:35px;
 }
 
@@ -312,7 +314,7 @@ textarea{
     font-family:Arial,sans-serif;
     font-size:8px;
     letter-spacing:3px;
-    color:#68758a;
+    color:var(--muted);
 }
 
 .entry{
@@ -321,16 +323,17 @@ textarea{
     gap:20px;
     align-items:center;
     padding:25px 10px;
-    border-bottom:1px solid #192130;
-    transition:.3s;
+    border-bottom:1px solid var(--line);
+    transition:.2s ease;
 }
 
 .entry:hover{
-    background:linear-gradient(
-        90deg,
-        rgba(100,141,204,.045),
-        transparent
-    );
+    background:
+        linear-gradient(
+            90deg,
+            rgba(100,141,204,.045),
+            transparent
+        );
 }
 
 .entry-number{
@@ -349,7 +352,7 @@ textarea{
     font-family:Arial,sans-serif;
     font-size:8px;
     letter-spacing:2px;
-    color:#68758a;
+    color:var(--muted);
 }
 
 .entry-actions{
@@ -358,241 +361,173 @@ textarea{
 }
 
 .entry-actions button{
-    border:1px solid #263247;
+    border:1px solid var(--line2);
     background:transparent;
-    color:#68758a;
+    color:var(--muted);
     padding:9px 13px;
     font-family:Arial,sans-serif;
     font-size:8px;
     letter-spacing:1px;
     cursor:pointer;
-    transition:.25s;
+    transition:.2s ease;
 }
 
 .entry-actions button:hover{
-    border-color:#91b2e3;
-    color:#91b2e3;
+    border-color:var(--accent);
+    color:var(--accent);
 }
 
+.entry-actions .delete-btn:hover{
+    border-color:var(--danger);
+    color:var(--danger);
+}
 
 /* =========================
-   CUSTOM MODALS
+   LOGOUT
+========================= */
+
+.logout{
+    border:0;
+    background:transparent;
+    color:var(--muted);
+    font-family:Arial,sans-serif;
+    font-size:8px;
+    letter-spacing:3px;
+    cursor:pointer;
+}
+
+.logout:hover{
+    color:var(--accent);
+}
+
+/* =========================
+   MODALS
 ========================= */
 
 .modal{
     position:fixed;
     inset:0;
+    z-index:1000;
+
     display:none;
     align-items:center;
     justify-content:center;
-    padding:20px;
-    background:rgba(2,4,9,.82);
-    backdrop-filter:blur(16px);
-    -webkit-backdrop-filter:blur(16px);
-    z-index:1000;
+
+    padding:25px;
+
+    background:rgba(0,0,0,.72);
+    backdrop-filter:blur(8px);
 }
 
 .modal.show{
     display:flex;
 }
 
-.modal-card{
-    position:relative;
-    width:min(760px,100%);
-    max-height:90vh;
-    overflow:auto;
-    padding:52px 55px 45px;
+.modal-box{
+    width:min(600px,100%);
     background:
         radial-gradient(
-            circle at 90% 5%,
-            rgba(120,165,225,.13),
-            transparent 28%
+            circle at 90% 0%,
+            rgba(120,165,225,.09),
+            transparent 35%
         ),
-        #080c14;
-    border:1px solid #29384d;
-    box-shadow:0 40px 120px rgba(0,0,0,.75);
-    animation:appear .3s ease;
+        var(--panel);
+
+    border:1px solid var(--line);
+    box-shadow:0 35px 100px rgba(0,0,0,.7);
+
+    padding:35px;
+    animation:modalIn .18s ease;
 }
 
-@keyframes appear{
+@keyframes modalIn{
     from{
         opacity:0;
-        transform:translateY(18px) scale(.98);
+        transform:translateY(8px) scale(.985);
     }
+
     to{
         opacity:1;
-        transform:translateY(0) scale(1);
+        transform:none;
     }
 }
 
-.modal-decoration{
-    position:absolute;
-    top:20px;
-    right:25px;
-    width:110px;
-    height:110px;
-    pointer-events:none;
-}
-
-.circle{
-    position:absolute;
-    border:1px solid rgba(145,178,227,.16);
-    border-radius:50%;
-}
-
-.circle.one{
-    width:100px;
-    height:45px;
-    top:25px;
-    left:5px;
-    transform:rotate(-30deg);
-}
-
-.circle.two{
-    width:100px;
-    height:45px;
-    top:25px;
-    left:5px;
-    transform:rotate(30deg);
-}
-
-.circle.three{
-    width:55px;
-    height:55px;
-    top:20px;
-    left:28px;
-}
-
-.modal-top{
-    display:flex;
-    justify-content:space-between;
-    padding-bottom:20px;
-    margin-bottom:35px;
-    border-bottom:1px solid #1c2839;
-}
-
-.modal-label{
+.modal-eyebrow{
     font-family:Arial,sans-serif;
     font-size:8px;
     letter-spacing:4px;
-    color:#91b2e3;
-}
-
-.modal-number{
-    font-family:Arial,sans-serif;
-    font-size:8px;
-    color:#46536a;
-    letter-spacing:2px;
-}
-
-.modal-title{
-    font-size:clamp(42px,6vw,65px);
-    font-weight:400;
-    letter-spacing:-4px;
+    color:var(--accent);
     margin-bottom:12px;
 }
 
-.modal-subtitle{
-    font-family:Arial,sans-serif;
-    font-size:10px;
-    color:#68758a;
-    margin-bottom:35px;
-}
-
-.modal-field{
+.modal-title{
+    font-size:32px;
+    font-weight:400;
+    letter-spacing:-2px;
     margin-bottom:25px;
 }
 
-.modal-field input,
-.modal-field textarea{
-    background:#05080e;
-    border:1px solid #1d2a3c;
+.modal-field{
+    margin-bottom:18px;
 }
 
-.modal-field input{
-    font-family:Georgia,"Times New Roman",serif;
-    font-size:21px;
-}
-
-.modal-field textarea{
+.modal textarea{
     min-height:220px;
-    font-family:Georgia,"Times New Roman",serif;
-    font-size:15px;
-    line-height:1.8;
 }
 
-.modal-footer{
+.modal-actions{
     display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:20px;
-    padding-top:25px;
-    margin-top:30px;
-    border-top:1px solid #1c2839;
-}
-
-.modal-note{
-    font-family:Arial,sans-serif;
-    font-size:8px;
-    line-height:1.7;
-    letter-spacing:1px;
-    color:#46536a;
-}
-
-.modal-buttons{
-    display:flex;
-    gap:9px;
+    justify-content:flex-end;
+    gap:10px;
+    margin-top:25px;
 }
 
 .modal-btn{
-    min-width:95px;
-    padding:13px 18px;
-    border:1px solid #29374c;
+    padding:12px 18px;
+    border:1px solid var(--line2);
     background:transparent;
-    color:#718096;
+    color:var(--muted);
     font-family:Arial,sans-serif;
     font-size:8px;
     letter-spacing:2px;
     cursor:pointer;
-    transition:.25s;
 }
 
 .modal-btn:hover{
-    border-color:#91b2e3;
-    color:#91b2e3;
+    border-color:var(--accent);
+    color:var(--accent);
 }
 
 .modal-btn.primary{
     background:#edf1f6;
-    color:#05070c;
     border-color:#edf1f6;
+    color:#05070c;
 }
 
 .modal-btn.primary:hover{
-    background:#91b2e3;
-    border-color:#91b2e3;
+    background:var(--accent);
+    border-color:var(--accent);
 }
 
-.delete-card{
-    width:min(450px,100%);
-    text-align:center;
+.modal-btn.danger{
+    color:var(--danger);
+    border-color:rgba(199,123,134,.35);
 }
 
-.delete-card .modal-title{
-    margin-top:20px;
+.modal-btn.danger:hover{
+    background:rgba(199,123,134,.08);
+    border-color:var(--danger);
 }
 
 .delete-text{
+    color:var(--muted);
     font-family:Arial,sans-serif;
-    color:#68758a;
     font-size:12px;
     line-height:1.7;
-    margin-bottom:25px;
 }
 
-
 /* =========================
-   MOBILE
+   RESPONSIVE
 ========================= */
 
 @media(max-width:650px){
@@ -610,18 +545,15 @@ textarea{
         min-height:calc(100vh - 70px);
     }
 
-    .login-box{
-        padding:40px 25px;
-    }
-
     main{
         width:88%;
         padding:65px 0 80px;
     }
 
     .actions{
-        align-items:flex-start;
+        align-items:stretch;
         flex-direction:column;
+        gap:15px;
     }
 
     .publish{
@@ -637,27 +569,20 @@ textarea{
         grid-column:2;
     }
 
-    .modal-card{
-        padding:35px 22px 30px;
+    .login-box{
+        padding:40px 25px;
     }
 
-    .modal-decoration{
-        transform:scale(.7);
-        right:5px;
-        top:5px;
+    .modal-box{
+        padding:27px 22px;
     }
 
-    .modal-footer{
-        align-items:flex-start;
-        flex-direction:column;
-    }
-
-    .modal-buttons{
-        width:100%;
+    .modal-actions{
+        flex-direction:column-reverse;
     }
 
     .modal-btn{
-        flex:1;
+        width:100%;
     }
 }
 </style>
@@ -667,227 +592,225 @@ textarea{
 
 <header>
 
-<div class="brand">
+    <div class="brand">
 
-<div class="brand-shape">
-<span></span>
-<span></span>
-<span></span>
-</div>
+        <div class="brand-shape">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
 
-<div class="logo">
-The<span>Notebook</span>
-</div>
+        <div class="logo">
+            The<span>Notebook</span>
+        </div>
 
-</div>
+    </div>
 
-<a
-href="https://the-notebook-taupe.vercel.app/"
-class="back"
->
-+ SITE
-</a>
+    <div>
+        <a
+            href="https://the-notebook-taupe.vercel.app/"
+            class="back"
+            target="_blank"
+            rel="noopener"
+        >
+            + SITE
+        </a>
+    </div>
 
 </header>
 
 
 <!-- =========================
-     LOGIN
+     LOGIN SCREEN
 ========================= -->
 
 <section id="loginScreen">
 
-<div class="login-box">
+    <form id="loginForm" class="login-box">
 
-<p class="eyebrow">THE NOTEBOOK</p>
+        <p class="eyebrow">
+            THE NOTEBOOK
+        </p>
 
-<h1 class="login-title">
-Welcome.
-</h1>
+        <h1 class="login-title">
+            Welcome.
+        </h1>
 
-<form id="loginForm">
+        <div class="login-field">
 
-<div class="login-field">
+            <label for="username">
+                USERNAME
+            </label>
 
-<label>USERNAME</label>
+            <input
+                id="username"
+                class="login-input"
+                type="text"
+                autocomplete="username"
+                placeholder="Username"
+                required
+            >
 
-<input
-id="username"
-class="login-input"
-type="text"
-autocomplete="username"
-placeholder="Username"
-required
->
+        </div>
 
-</div>
+        <div class="login-field">
 
-<div class="login-field">
+            <label for="password">
+                PASSWORD
+            </label>
 
-<label>PASSWORD</label>
+            <input
+                id="password"
+                class="login-input"
+                type="password"
+                autocomplete="current-password"
+                placeholder="Password"
+                required
+            >
 
-<input
-id="password"
-class="login-input"
-type="password"
-autocomplete="current-password"
-placeholder="Password"
-required
->
+        </div>
 
-</div>
+        <button
+            id="loginButton"
+            class="login-button"
+            type="submit"
+        >
+            ENTER
+        </button>
 
-<button
-id="loginButton"
-class="login-button"
-type="submit"
->
-ENTER
-</button>
+        <p id="loginMessage"></p>
 
-<p id="loginMessage"></p>
-
-</form>
-
-</div>
+    </form>
 
 </section>
 
 
 <!-- =========================
-     ADMIN
+     ADMIN SCREEN
 ========================= -->
 
 <section id="adminScreen">
 
-<main>
+    <main>
 
-<section class="page-title">
+        <section class="page-title">
 
-<p class="eyebrow">
-ADMIN
-</p>
+            <p class="eyebrow">
+                ADMIN
+            </p>
 
-<h1>
-Compose.
-</h1>
+            <h1>
+                Compose.
+            </h1>
 
-</section>
-
-
-<form id="blogForm" class="editor">
-
-<div class="field">
-
-<label>
-TITLE
-</label>
-
-<input
-id="title"
-type="text"
-placeholder="Title"
-required
->
-
-</div>
+        </section>
 
 
-<div class="field">
+        <form id="blogForm" class="editor">
 
-<label>
-CATEGORY
-</label>
+            <div class="field">
 
-<select id="category">
+                <label for="title">
+                    TITLE
+                </label>
 
-<option value="Journal">
-Journal
-</option>
+                <input
+                    id="title"
+                    type="text"
+                    placeholder="Title"
+                    required
+                >
 
-<option value="Thoughts">
-Thoughts
-</option>
-
-<option value="Stories">
-Stories
-</option>
-
-<option value="Ideas">
-Ideas
-</option>
-
-<option value="Notes">
-Notes
-</option>
-
-</select>
-
-</div>
+            </div>
 
 
-<div class="field">
+            <div class="field">
 
-<label>
-CONTENT
-</label>
+                <label for="category">
+                    CATEGORY
+                </label>
 
-<textarea
-id="content"
-placeholder="Write..."
-required
-></textarea>
+                <select id="category">
 
-</div>
+                    <option value="Journal">
+                        Journal
+                    </option>
 
+                    <option value="Thoughts">
+                        Thoughts
+                    </option>
 
-<div class="actions">
+                    <option value="Stories">
+                        Stories
+                    </option>
 
-<button
-id="publishButton"
-type="submit"
-class="publish"
->
-PUBLISH
-</button>
+                    <option value="Ideas">
+                        Ideas
+                    </option>
 
-<div id="message"></div>
+                    <option value="Notes">
+                        Notes
+                    </option>
 
-<button
-id="logoutButton"
-type="button"
-class="logout"
->
-LOGOUT
-</button>
+                </select>
 
-</div>
-
-</form>
+            </div>
 
 
-<section class="entries">
+            <div class="field">
 
-<div class="entries-head">
+                <label for="content">
+                    CONTENT
+                </label>
 
-<h2>
-Entries
-</h2>
+                <textarea
+                    id="content"
+                    placeholder="Write..."
+                    required
+                ></textarea>
 
-<span
-id="entryCount"
-class="count"
->
-LOADING
-</span>
+            </div>
 
-</div>
 
-<div id="entriesList"></div>
+            <div class="actions">
 
-</section>
+                <button
+                    id="publishButton"
+                    type="submit"
+                    class="publish"
+                >
+                    PUBLISH
+                </button>
 
-</main>
+                <div id="message"></div>
+
+            </div>
+
+        </form>
+
+
+        <section class="entries">
+
+            <div class="entries-head">
+
+                <h2>
+                    Entries
+                </h2>
+
+                <span
+                    id="entryCount"
+                    class="count"
+                >
+                    LOADING
+                </span>
+
+            </div>
+
+            <div id="entriesList"></div>
+
+        </section>
+
+    </main>
 
 </section>
 
@@ -897,100 +820,71 @@ LOADING
 ========================= -->
 
 <div
-id="editModal"
-class="modal"
+    id="editModal"
+    class="modal"
+    aria-hidden="true"
 >
 
-<div class="modal-card">
+    <div
+        class="modal-box"
+        role="dialog"
+        aria-modal="true"
+    >
 
-<div class="modal-decoration">
+        <p class="modal-eyebrow">
+            EDIT ENTRY
+        </p>
 
-<div class="circle one"></div>
-<div class="circle two"></div>
-<div class="circle three"></div>
+        <h2 class="modal-title">
+            Refine.
+        </h2>
 
-</div>
+        <div class="modal-field">
 
-<div class="modal-top">
+            <label for="editTitle">
+                TITLE
+            </label>
 
-<span class="modal-label">
-EDIT / ENTRY
-</span>
+            <input
+                id="editTitle"
+                type="text"
+            >
 
-<span
-id="editNumber"
-class="modal-number"
->
-—
-</span>
+        </div>
 
-</div>
+        <div class="modal-field">
 
-<h2 class="modal-title">
-Refine.
-</h2>
+            <label for="editContent">
+                CONTENT
+            </label>
 
-<p class="modal-subtitle">
-Shape the thought. Keep the feeling.
-</p>
+            <textarea
+                id="editContent"
+            ></textarea>
 
+        </div>
 
-<div class="modal-field">
+        <div class="modal-actions">
 
-<label>
-TITLE
-</label>
+            <button
+                id="cancelEdit"
+                type="button"
+                class="modal-btn"
+            >
+                CANCEL
+            </button>
 
-<input
-id="editTitle"
-type="text"
->
-</div>
+            <button
+                id="saveEdit"
+                type="button"
+                class="modal-btn primary"
+            >
+                SAVE CHANGES
+            </button>
 
+        </div>
 
-<div class="modal-field">
-
-<label>
-CONTENT
-</label>
-
-<textarea
-id="editContent"
-></textarea>
-
-</div>
-
-
-<div class="modal-footer">
-
-<p class="modal-note">
-A quiet space<br>
-for better words.
-</p>
-
-<div class="modal-buttons">
-
-<button
-id="cancelEdit"
-type="button"
-class="modal-btn"
->
-CLOSE
-</button>
-
-<button
-id="saveEdit"
-type="button"
-class="modal-btn primary"
->
-SAVE
-</button>
-
-</div>
-
-</div>
-
-</div>
+    </div>
 
 </div>
 
@@ -1000,45 +894,53 @@ SAVE
 ========================= -->
 
 <div
-id="deleteModal"
-class="modal"
+    id="deleteModal"
+    class="modal"
+    aria-hidden="true"
 >
 
-<div class="modal-card delete-card">
+    <div
+        class="modal-box"
+        role="dialog"
+        aria-modal="true"
+    >
 
-<p class="modal-label">
-REMOVE
-</p>
+        <p class="modal-eyebrow">
+            REMOVE ENTRY
+        </p>
 
-<h2 class="modal-title">
-Let go?
-</h2>
+        <h2 class="modal-title">
+            Are you sure?
+        </h2>
 
-<p class="delete-text">
-This entry will leave the notebook.
-</p>
+        <p
+            id="deleteText"
+            class="delete-text"
+        >
+            This entry will be permanently removed.
+        </p>
 
-<div class="modal-buttons">
+        <div class="modal-actions">
 
-<button
-id="cancelDelete"
-type="button"
-class="modal-btn"
->
-KEEP
-</button>
+            <button
+                id="cancelDelete"
+                type="button"
+                class="modal-btn"
+            >
+                CANCEL
+            </button>
 
-<button
-id="confirmDelete"
-type="button"
-class="modal-btn primary"
->
-REMOVE
-</button>
+            <button
+                id="confirmDelete"
+                type="button"
+                class="modal-btn danger"
+            >
+                DELETE
+            </button>
 
-</div>
+        </div>
 
-</div>
+    </div>
 
 </div>
 
@@ -1050,10 +952,10 @@ REMOVE
 ========================= */
 
 const API =
-"https://thenotebook-production-fa3e.up.railway.app/api/blogs";
+    "https://thenotebook-production-fa3e.up.railway.app/api/blogs";
 
 const LOGIN_API =
-"https://thenotebook-production-fa3e.up.railway.app/api/admin/login";
+    "https://thenotebook-production-fa3e.up.railway.app/api/admin/login";
 
 
 /* =========================
@@ -1061,52 +963,62 @@ const LOGIN_API =
 ========================= */
 
 const loginScreen =
-document.getElementById("loginScreen");
+    document.getElementById("loginScreen");
 
 const adminScreen =
-document.getElementById("adminScreen");
+    document.getElementById("adminScreen");
 
 const loginForm =
-document.getElementById("loginForm");
+    document.getElementById("loginForm");
 
 const loginButton =
-document.getElementById("loginButton");
+    document.getElementById("loginButton");
 
 const loginMessage =
-document.getElementById("loginMessage");
+    document.getElementById("loginMessage");
 
 const blogForm =
-document.getElementById("blogForm");
+    document.getElementById("blogForm");
 
 const publishButton =
-document.getElementById("publishButton");
+    document.getElementById("publishButton");
 
 const message =
-document.getElementById("message");
+    document.getElementById("message");
 
 const entriesList =
-document.getElementById("entriesList");
+    document.getElementById("entriesList");
 
 const entryCount =
-document.getElementById("entryCount");
+    document.getElementById("entryCount");
 
 const editModal =
-document.getElementById("editModal");
+    document.getElementById("editModal");
 
 const deleteModal =
-document.getElementById("deleteModal");
+    document.getElementById("deleteModal");
 
 const editTitle =
-document.getElementById("editTitle");
+    document.getElementById("editTitle");
 
 const editContent =
-document.getElementById("editContent");
+    document.getElementById("editContent");
 
-const editNumber =
-document.getElementById("editNumber");
+const deleteText =
+    document.getElementById("deleteText");
 
-const logoutButton =
-document.getElementById("logoutButton");
+const cancelEdit =
+    document.getElementById("cancelEdit");
+
+const saveEdit =
+    document.getElementById("saveEdit");
+
+const cancelDelete =
+    document.getElementById("cancelDelete");
+
+const confirmDelete =
+    document.getElementById("confirmDelete");
+
 
 let editingId = null;
 let deletingId = null;
@@ -1144,262 +1056,111 @@ function authHeaders(){
 /* =========================
    LOGIN
 ========================= */
-document.addEventListener("keydown", function(event) {
 
-    if (
-        event.key === "Enter" &&
-        document.getElementById("loginScreen").style.display !== "none"
-    ) {
-        event.preventDefault();
-        loginForm.requestSubmit();
-    }
-
-});
 loginForm.addEventListener(
-"submit",
-async function(event){
+    "submit",
+    async function(event){
 
-    event.preventDefault();
+        event.preventDefault();
 
-    const username =
-        document.getElementById("username")
-        .value
-        .trim();
+        const username =
+            document
+                .getElementById("username")
+                .value
+                .trim();
 
-    const password =
-        document.getElementById("password")
-        .value;
-
-    if(!username || !password){
-
-        loginMessage.textContent =
-        "Please enter both fields.";
-
-        return;
-    }
-
-    loginButton.disabled = true;
-    loginButton.textContent = "ENTERING...";
-    loginMessage.textContent = "";
-
-    try{
-
-        const response =
-        await fetch(
-            LOGIN_API,
-            {
-                method:"POST",
-
-                headers:{
-                    "Content-Type":
-                    "application/json"
-                },
-
-                body:JSON.stringify({
-                    username,
-                    password
-                })
-            }
-        );
-
-        let data = {};
-
-        try{
-            data = await response.json();
-        }
-        catch{
-            data = {};
-        }
-
-        if(!response.ok){
-
-            throw new Error(
-                data.error ||
-                "Invalid username or password."
-            );
-
-        }
-
-        if(!data.token){
-
-            throw new Error(
-                "Login succeeded but no session token was returned."
-            );
-
-        }
-
-        localStorage.setItem(
-            "thenotebook_admin_token",
-            data.token
-        );
+        const password =
+            document
+                .getElementById("password")
+                .value;
 
         loginMessage.textContent = "";
 
-        showAdmin();
+        if(!username || !password){
 
-    }
-    catch(error){
+            loginMessage.textContent =
+                "Please enter both fields.";
 
-        console.error(
-            "Login error:",
-            error
-        );
-
-        loginMessage.textContent =
-        error.message ||
-        "Unable to login.";
-
-    }
-    finally{
-
-        loginButton.disabled = false;
-        loginButton.textContent = "ENTER";
-
-    }
-
-});
-
-
-/* =========================
-   SHOW ADMIN
-========================= */
-
-function showAdmin(){
-
-    loginScreen.style.display = "none";
-    adminScreen.style.display = "block";
-
-    loadEntries();
-
-}
-
-
-/* =========================
-   LOGOUT
-========================= */
-
-function logout(){
-
-    localStorage.removeItem(
-        "thenotebook_admin_token"
-    );
-
-    adminScreen.style.display = "none";
-    loginScreen.style.display = "flex";
-
-    document.getElementById(
-        "password"
-    ).value = "";
-
-    loginMessage.textContent = "";
-
-}
-
-
-/* =========================
-   LOGOUT BUTTON
-========================= */
-
-logoutButton.addEventListener(
-"click",
-logout
-);
-
-
-/* =========================
-   PUBLISH
-========================= */
-
-blogForm.addEventListener(
-"submit",
-async function(event){
-
-    event.preventDefault();
-
-    const title =
-        document.getElementById("title")
-        .value
-        .trim();
-
-    const category =
-        document.getElementById("category")
-        .value;
-
-    const content =
-        document.getElementById("content")
-        .value
-        .trim();
-
-    if(!title || !content){
-
-        message.textContent =
-        "Title and content are required.";
-
-        return;
-    }
-
-    publishButton.disabled = true;
-    publishButton.textContent = "PUBLISHING...";
-    message.textContent = "";
-
-    try{
-
-        const response =
-        await fetch(
-            API,
-            {
-                method:"POST",
-
-                headers:authHeaders(),
-
-                body:JSON.stringify({
-                    title,
-                    category,
-                    content
-                })
-            }
-        );
-
-        let data = {};
-
-        try{
-            data = await response.json();
-        }
-        catch{
-            data = {};
-        }
-
-        if(response.status === 401){
-
-            logout();
             return;
         }
 
-        if(!response.ok){
+        loginButton.disabled = true;
+        loginButton.textContent = "ENTERING...";
 
-            throw new Error(
-                data.error ||
-                "Unable to publish."
+        try{
+
+            const response =
+                await fetch(
+                    LOGIN_API,
+                    {
+                        method:"POST",
+
+                        headers:{
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body:JSON.stringify({
+                            username:username,
+                            password:password
+                        })
+                    }
+                );
+
+
+            let data = {};
+
+            try{
+                data = await response.json();
+            }
+            catch{
+                data = {};
+            }
+
+
+            if(!response.ok){
+
+                throw new Error(
+                    data.error ||
+                    "Invalid username or password."
+                );
+
+            }
+
+
+            if(!data.token){
+
+                throw new Error(
+                    "Login succeeded but no token was received."
+                );
+
+            }
+
+
+            localStorage.setItem(
+                "thenotebook_admin_token",
+                data.token
             );
 
+
+            loginMessage.textContent = "";
+
+            showAdmin();
+
         }
+        catch(error){
 
-        blogForm.reset();
+            console.error(
+                "LOGIN ERROR:",
+                error
+            );
 
-        message.textContent =
-        "Published.";
+            loginMessage.textContent =
+                error.message ||
+                "Unable to login.";
 
-        await loadEntries();
+        }
+        finally{
 
-    }
-    catch(error){
-
-        console.error(
-            "Publish error:",
-            error
-        );
-
-        message.textContent =
-        "Unable to publish.";
-
-    }
+            loginButton.disabled = false;
+            loginButton.textContent = "ENTER";
