@@ -9,76 +9,120 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-
-// =========================
-// ADMIN SETTINGS
-// =========================
+/* =========================
+   ADMIN SETTINGS
+========================= */
 
 const ADMIN_USERNAME = process.env.ADMIN_USERNAME;
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
 const JWT_SECRET = process.env.JWT_SECRET;
 
 
-// =========================
-// HOME
-// =========================
+/* =========================
+   HOME
+========================= */
 
 app.get("/", (req, res) => {
     res.send("TheNotebook backend is running.");
 });
 
 
-// =========================
-// ADMIN LOGIN
-// =========================
+/* =========================
+   ADMIN LOGIN
+========================= */
 
 app.post("/api/admin/login", (req, res) => {
 
-    const {
-        username,
-        password
-    } = req.body;
+    try {
 
-    if (
-        username !== ADMIN_USERNAME ||
-        password !== ADMIN_PASSWORD
-    ) {
+        const {
+            username,
+            password
+        } = req.body || {};
 
-        return res.status(401).json({
-            error: "Invalid username or password."
+
+        if (!username || !password) {
+
+            return res.status(400).json({
+                error: "Username and password are required."
+            });
+
+        }
+
+
+        if (!ADMIN_USERNAME || !ADMIN_PASSWORD || !JWT_SECRET) {
+
+            console.error(
+                "Missing ADMIN_USERNAME, ADMIN_PASSWORD or JWT_SECRET."
+            );
+
+            return res.status(500).json({
+                error: "Admin authentication is not configured."
+            });
+
+        }
+
+
+        if (
+            username !== ADMIN_USERNAME ||
+            password !== ADMIN_PASSWORD
+        ) {
+
+            return res.status(401).json({
+                error: "Invalid username or password."
+            });
+
+        }
+
+
+        const token = jwt.sign(
+            {
+                username: username
+            },
+            JWT_SECRET,
+            {
+                expiresIn: "7d"
+            }
+        );
+
+
+        return res.json({
+
+            message: "Login successful.",
+
+            token: token
+
         });
 
     }
 
-    const token = jwt.sign(
-        {
-            username: username
-        },
-        JWT_SECRET,
-        {
-            expiresIn: "7d"
-        }
-    );
+    catch (error) {
 
-    res.json({
-        message: "Login successful.",
-        token: token
-    });
+        console.error(
+            "LOGIN ERROR:",
+            error
+        );
+
+        return res.status(500).json({
+            error: "Unable to login."
+        });
+
+    }
 
 });
 
 
-// =========================
-// ADMIN AUTHENTICATION
-// =========================
+/* =========================
+   ADMIN AUTHENTICATION
+========================= */
 
 function requireAdmin(req, res, next) {
 
     const authorization =
-        req.headers.authorization;
+        req.headers.authorization || "";
+
 
     if (
-        !authorization ||
         !authorization.startsWith("Bearer ")
     ) {
 
@@ -88,8 +132,19 @@ function requireAdmin(req, res, next) {
 
     }
 
+
     const token =
-        authorization.split(" ")[1];
+        authorization.substring(7).trim();
+
+
+    if (!token || !JWT_SECRET) {
+
+        return res.status(401).json({
+            error: "Invalid or expired session."
+        });
+
+    }
+
 
     try {
 
@@ -100,7 +155,14 @@ function requireAdmin(req, res, next) {
 
         next();
 
-    } catch (error) {
+    }
+
+    catch (error) {
+
+        console.error(
+            "AUTH ERROR:",
+            error.message
+        );
 
         return res.status(401).json({
             error: "Invalid or expired session."
@@ -111,240 +173,57 @@ function requireAdmin(req, res, next) {
 }
 
 
-// =========================
-// GET ALL BLOGS
-// PUBLIC
-// =========================
+/* =========================
+   GET ALL BLOGS
+   PUBLIC
+========================= */
 
 app.get("/api/blogs", (req, res) => {
 
-    const blogs = db.prepare(`
-        SELECT *
-        FROM blogs
-        ORDER BY created_at DESC
-    `).all();
+    try {
 
-    res.json(blogs);
+        const blogs = db.prepare(`
+            SELECT *
+            FROM blogs
+            ORDER BY created_at DESC
+        `).all();
+
+
+        return res.json(blogs);
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "GET BLOGS ERROR:",
+            error
+        );
+
+        return res.status(500).json({
+            error: "Unable to load blogs."
+        });
+
+    }
 
 });
 
 
-// =========================
-// GET ONE BLOG
-// PUBLIC
-// =========================
+/* =========================
+   GET ONE BLOG
+   PUBLIC
+========================= */
 
 app.get("/api/blogs/:id", (req, res) => {
 
-    const blog = db.prepare(`
-        SELECT *
-        FROM blogs
-        WHERE id = ?
-    `).get(req.params.id);
-
-    if (!blog) {
-
-        return res.status(404).json({
-            error: "Blog not found."
-        });
-
-    }
-
-    res.json(blog);
-
-});
-
-
-// =========================
-// CREATE BLOG
-// ADMIN ONLY
-// =========================
-
-app.post(
-    "/api/blogs",
-    requireAdmin,
-    (req, res) => {
-
-        const {
-            title,
-            content,
-            category,
-            image
-        } = req.body;
-
-        if (!title || !content) {
-
-            return res.status(400).json({
-                error:
-                    "Title and content are required."
-            });
-
-        }
-
-        const result = db.prepare(`
-            INSERT INTO blogs
-            (title, content, category, image)
-            VALUES (?, ?, ?, ?)
-        `).run(
-            title.trim(),
-            content.trim(),
-            category || "Journal",
-            image || null
-        );
-
-        res.json({
-
-            message:
-                "Blog published successfully.",
-
-            id:
-                result.lastInsertRowid
-
-        });
-
-    }
-);
-
-
-// =========================
-// UPDATE BLOG
-// ADMIN ONLY
-// =========================
-
-app.put(
-    "/api/blogs/:id",
-    requireAdmin,
-    (req, res) => {
-
-        const {
-            title,
-            content,
-            category
-        } = req.body;
-
-        if (!title || !content) {
-
-            return res.status(400).json({
-                error:
-                    "Title and content are required."
-            });
-
-        }
-
-        const result = db.prepare(`
-            UPDATE blogs
-            SET
-                title = ?,
-                content = ?,
-                category = ?
-            WHERE id = ?
-        `).run(
-            title.trim(),
-            content.trim(),
-            category || "Journal",
-            req.params.id
-        );
-
-        if (result.changes === 0) {
-
-            return res.status(404).json({
-                error: "Blog not found."
-            });
-
-        }
-
-        res.json({
-            message:
-                "Blog updated successfully."
-        });
-
-    }
-);
-
-
-// =========================
-// DELETE BLOG
-// ADMIN ONLY
-// =========================
-
-app.delete(
-    "/api/blogs/:id",
-    requireAdmin,
-    (req, res) => {
-
-        const result = db.prepare(`
-            DELETE FROM blogs
-            WHERE id = ?
-        `).run(req.params.id);
-
-        if (result.changes === 0) {
-
-            return res.status(404).json({
-                error: "Blog not found."
-            });
-
-        }
-
-        res.json({
-            message:
-                "Blog deleted successfully."
-        });
-
-    }
-);
-
-
-// =========================
-// REVIEWS / THOUGHTS
-// =========================
-
-
-// GET REVIEWS
-// PUBLIC
-
-app.get(
-    "/api/blogs/:id/reviews",
-    (req, res) => {
-
-        const reviews = db.prepare(`
-            SELECT *
-            FROM reviews
-            WHERE blog_id = ?
-            ORDER BY created_at DESC
-        `).all(req.params.id);
-
-        res.json(reviews);
-
-    }
-);
-
-
-// ADD REVIEW
-// PUBLIC
-
-app.post(
-    "/api/blogs/:id/reviews",
-    (req, res) => {
-
-        const {
-            name,
-            content
-        } = req.body;
-
-        if (!name || !content) {
-
-            return res.status(400).json({
-                error:
-                    "Name and review are required."
-            });
-
-        }
+    try {
 
         const blog = db.prepare(`
-            SELECT id
+            SELECT *
             FROM blogs
             WHERE id = ?
         `).get(req.params.id);
+
 
         if (!blog) {
 
@@ -354,41 +233,407 @@ app.post(
 
         }
 
-        const result = db.prepare(`
-            INSERT INTO reviews
-            (blog_id, name, content)
-            VALUES (?, ?, ?)
-        `).run(
-            req.params.id,
-            name.trim(),
-            content.trim()
+
+        return res.json(blog);
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "GET BLOG ERROR:",
+            error
         );
 
-        res.json({
-
-            message:
-                "Review posted successfully.",
-
-            id:
-                result.lastInsertRowid
-
+        return res.status(500).json({
+            error: "Unable to load blog."
         });
+
+    }
+
+});
+
+
+/* =========================
+   CREATE BLOG
+   ADMIN ONLY
+========================= */
+
+app.post(
+    "/api/blogs",
+    requireAdmin,
+    (req, res) => {
+
+        try {
+
+            const {
+                title,
+                content,
+                category,
+                image
+            } = req.body || {};
+
+
+            if (
+                !title ||
+                !title.trim() ||
+                !content ||
+                !content.trim()
+            ) {
+
+                return res.status(400).json({
+                    error:
+                        "Title and content are required."
+                });
+
+            }
+
+
+            const result = db.prepare(`
+                INSERT INTO blogs
+                (title, content, category, image)
+                VALUES (?, ?, ?, ?)
+            `).run(
+
+                title.trim(),
+
+                content.trim(),
+
+                category && category.trim()
+                    ? category.trim()
+                    : "Journal",
+
+                image || null
+
+            );
+
+
+            return res.status(201).json({
+
+                message:
+                    "Blog published successfully.",
+
+                id:
+                    result.lastInsertRowid
+
+            });
+
+        }
+
+        catch (error) {
+
+            console.error(
+                "CREATE BLOG ERROR:",
+                error
+            );
+
+            return res.status(500).json({
+                error:
+                    "Unable to publish blog."
+            });
+
+        }
 
     }
 );
 
 
-// =========================
-// SERVER
-// =========================
+/* =========================
+   UPDATE BLOG
+   ADMIN ONLY
+========================= */
+
+app.put(
+    "/api/blogs/:id",
+    requireAdmin,
+    (req, res) => {
+
+        try {
+
+            const {
+                title,
+                content,
+                category
+            } = req.body || {};
+
+
+            if (
+                !title ||
+                !title.trim() ||
+                !content ||
+                !content.trim()
+            ) {
+
+                return res.status(400).json({
+                    error:
+                        "Title and content are required."
+                });
+
+            }
+
+
+            const result = db.prepare(`
+                UPDATE blogs
+                SET
+                    title = ?,
+                    content = ?,
+                    category = ?
+                WHERE id = ?
+            `).run(
+
+                title.trim(),
+
+                content.trim(),
+
+                category && category.trim()
+                    ? category.trim()
+                    : "Journal",
+
+                req.params.id
+
+            );
+
+
+            if (result.changes === 0) {
+
+                return res.status(404).json({
+                    error: "Blog not found."
+                });
+
+            }
+
+
+            return res.json({
+
+                message:
+                    "Blog updated successfully."
+
+            });
+
+        }
+
+        catch (error) {
+
+            console.error(
+                "UPDATE BLOG ERROR:",
+                error
+            );
+
+            return res.status(500).json({
+                error:
+                    "Unable to update blog."
+            });
+
+        }
+
+    }
+);
+
+
+/* =========================
+   DELETE BLOG
+   ADMIN ONLY
+========================= */
+
+app.delete(
+    "/api/blogs/:id",
+    requireAdmin,
+    (req, res) => {
+
+        try {
+
+            const result = db.prepare(`
+                DELETE FROM blogs
+                WHERE id = ?
+            `).run(req.params.id);
+
+
+            if (result.changes === 0) {
+
+                return res.status(404).json({
+                    error: "Blog not found."
+                });
+
+            }
+
+
+            return res.json({
+
+                message:
+                    "Blog deleted successfully."
+
+            });
+
+        }
+
+        catch (error) {
+
+            console.error(
+                "DELETE BLOG ERROR:",
+                error
+            );
+
+            return res.status(500).json({
+                error:
+                    "Unable to delete blog."
+            });
+
+        }
+
+    }
+);
+
+
+/* =========================
+   GET REVIEWS
+   PUBLIC
+========================= */
+
+app.get(
+    "/api/blogs/:id/reviews",
+    (req, res) => {
+
+        try {
+
+            const reviews = db.prepare(`
+                SELECT *
+                FROM reviews
+                WHERE blog_id = ?
+                ORDER BY created_at DESC
+            `).all(req.params.id);
+
+
+            return res.json(reviews);
+
+        }
+
+        catch (error) {
+
+            console.error(
+                "GET REVIEWS ERROR:",
+                error
+            );
+
+            return res.status(500).json({
+                error:
+                    "Unable to load reviews."
+            });
+
+        }
+
+    }
+);
+
+
+/* =========================
+   ADD REVIEW
+   PUBLIC
+========================= */
+
+app.post(
+    "/api/blogs/:id/reviews",
+    (req, res) => {
+
+        try {
+
+            const {
+                name,
+                content
+            } = req.body || {};
+
+
+            if (
+                !name ||
+                !name.trim() ||
+                !content ||
+                !content.trim()
+            ) {
+
+                return res.status(400).json({
+                    error:
+                        "Name and review are required."
+                });
+
+            }
+
+
+            const blog = db.prepare(`
+                SELECT id
+                FROM blogs
+                WHERE id = ?
+            `).get(req.params.id);
+
+
+            if (!blog) {
+
+                return res.status(404).json({
+                    error:
+                        "Blog not found."
+                });
+
+            }
+
+
+            const result = db.prepare(`
+                INSERT INTO reviews
+                (blog_id, name, content)
+                VALUES (?, ?, ?)
+            `).run(
+
+                req.params.id,
+
+                name.trim(),
+
+                content.trim()
+
+            );
+
+
+            return res.status(201).json({
+
+                message:
+                    "Review posted successfully.",
+
+                id:
+                    result.lastInsertRowid
+
+            });
+
+        }
+
+        catch (error) {
+
+            console.error(
+                "ADD REVIEW ERROR:",
+                error
+            );
+
+            return res.status(500).json({
+                error:
+                    "Unable to post review."
+            });
+
+        }
+
+    }
+);
+
+
+/* =========================
+   SERVER
+========================= */
 
 const PORT =
     process.env.PORT || 5000;
 
-app.listen(PORT, () => {
 
-    console.log(
-        `TheNotebook server running on port ${PORT}`
-    );
+app.listen(
+    PORT,
+    () => {
 
-});
+        console.log(
+            `TheNotebook server running on port ${PORT}`
+        );
+
+    }
+);
