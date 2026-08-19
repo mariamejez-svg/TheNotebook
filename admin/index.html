@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>TheNotebook — Admin</title>
 
 <style>
@@ -15,12 +16,18 @@
 :root{
     --bg:#05070c;
     --panel:#080c14;
+    --panel2:#0b1019;
     --line:#1b2637;
     --line2:#263247;
     --text:#f3f5f8;
     --muted:#68758a;
     --accent:#91b2e3;
     --danger:#c77b86;
+    --success:#91c7a0;
+}
+
+html{
+    scroll-behavior:smooth;
 }
 
 body{
@@ -47,6 +54,11 @@ header{
     align-items:center;
     justify-content:space-between;
     border-bottom:1px solid var(--line);
+    background:rgba(5,7,12,.78);
+    backdrop-filter:blur(12px);
+    position:sticky;
+    top:0;
+    z-index:100;
 }
 
 .brand{
@@ -86,22 +98,38 @@ header{
 
 .logo{
     font-size:23px;
+    letter-spacing:-.5px;
 }
 
 .logo span{
     color:var(--accent);
 }
 
-.back{
+.header-right{
+    display:flex;
+    align-items:center;
+    gap:22px;
+}
+
+.back,
+.logout{
     color:var(--muted);
     text-decoration:none;
     font-family:Arial,sans-serif;
     font-size:9px;
     letter-spacing:3px;
+    transition:.2s ease;
 }
 
-.back:hover{
+.back:hover,
+.logout:hover{
     color:var(--accent);
+}
+
+.logout{
+    border:0;
+    background:none;
+    cursor:pointer;
 }
 
 /* =========================
@@ -134,7 +162,13 @@ textarea{
     border:1px solid var(--line);
     outline:none;
     padding:15px;
+    border-radius:0;
     transition:.2s ease;
+}
+
+input::placeholder,
+textarea::placeholder{
+    color:#3e4b60;
 }
 
 input:focus,
@@ -142,6 +176,12 @@ select:focus,
 textarea:focus{
     border-color:var(--accent);
     box-shadow:0 0 0 1px rgba(145,178,227,.08);
+}
+
+button{
+    -webkit-tap-highlight-color:transparent;
+}
+
 /* =========================
    LOGIN
 ========================= */
@@ -184,8 +224,8 @@ textarea:focus{
     font-size:13px;
 }
 
-.login-button,
-.publish{
+.login-button{
+    width:100%;
     border:0;
     background:#edf1f6;
     color:#05070c;
@@ -194,21 +234,15 @@ textarea:focus{
     font-size:9px;
     letter-spacing:3px;
     cursor:pointer;
+    margin-top:8px;
     transition:.2s ease;
 }
 
-.login-button{
-    width:100%;
-    margin-top:8px;
-}
-
-.login-button:hover,
-.publish:hover{
+.login-button:hover{
     background:var(--accent);
 }
 
-.login-button:disabled,
-.publish:disabled{
+.login-button:disabled{
     opacity:.55;
     cursor:not-allowed;
 }
@@ -219,6 +253,7 @@ textarea:focus{
     color:var(--danger);
     margin-top:15px;
     min-height:14px;
+    line-height:1.6;
 }
 
 /* =========================
@@ -281,13 +316,39 @@ select{
 
 .publish{
     width:auto;
+    border:0;
+    background:#edf1f6;
+    color:#05070c;
     padding:15px 25px;
+    font-family:Arial,sans-serif;
+    font-size:9px;
+    letter-spacing:3px;
+    cursor:pointer;
+    transition:.2s ease;
+}
+
+.publish:hover{
+    background:var(--accent);
+}
+
+.publish:disabled{
+    opacity:.55;
+    cursor:not-allowed;
 }
 
 #message{
     font-family:Arial,sans-serif;
     font-size:10px;
     color:var(--muted);
+    min-height:14px;
+}
+
+#message.success{
+    color:var(--success);
+}
+
+#message.error{
+    color:var(--danger);
 }
 
 /* =========================
@@ -326,14 +387,16 @@ select{
     align-items:center;
     padding:25px 10px;
     border-bottom:1px solid var(--line);
+    transition:.2s ease;
 }
 
 .entry:hover{
-    background:linear-gradient(
-        90deg,
-        rgba(100,141,204,.045),
-        transparent
-    );
+    background:
+        linear-gradient(
+            90deg,
+            rgba(100,141,204,.045),
+            transparent
+        );
 }
 
 .entry-number{
@@ -369,6 +432,7 @@ select{
     font-size:8px;
     letter-spacing:1px;
     cursor:pointer;
+    transition:.2s ease;
 }
 
 .entry-actions button:hover{
@@ -389,10 +453,13 @@ select{
     position:fixed;
     inset:0;
     z-index:1000;
+
     display:none;
     align-items:center;
     justify-content:center;
+
     padding:25px;
+
     background:rgba(0,0,0,.72);
     backdrop-filter:blur(8px);
 }
@@ -410,21 +477,28 @@ select{
             transparent 35%
         ),
         var(--panel);
+
     border:1px solid var(--line);
+
     box-shadow:0 35px 100px rgba(0,0,0,.7);
+
     padding:35px;
+
     animation:modalIn .18s ease;
 }
 
 @keyframes modalIn{
+
     from{
         opacity:0;
         transform:translateY(8px) scale(.985);
     }
+
     to{
         opacity:1;
         transform:none;
     }
+
 }
 
 .modal-eyebrow{
@@ -466,6 +540,7 @@ select{
     font-size:8px;
     letter-spacing:2px;
     cursor:pointer;
+    transition:.2s ease;
 }
 
 .modal-btn:hover{
@@ -494,6 +569,11 @@ select{
     border-color:var(--danger);
 }
 
+.modal-btn:disabled{
+    opacity:.5;
+    cursor:not-allowed;
+}
+
 .delete-text{
     color:var(--muted);
     font-family:Arial,sans-serif;
@@ -504,7 +584,8 @@ select{
 /* =========================
    RESPONSIVE
 ========================= */
-    @media(max-width:650px){
+
+@media(max-width:650px){
 
     header{
         height:70px;
@@ -513,6 +594,16 @@ select{
 
     .logo{
         font-size:20px;
+    }
+
+    .header-right{
+        gap:12px;
+    }
+
+    .back,
+    .logout{
+        font-size:7px;
+        letter-spacing:2px;
     }
 
     #loginScreen{
@@ -524,9 +615,18 @@ select{
         padding:65px 0 80px;
     }
 
+    .page-title{
+        margin-bottom:45px;
+    }
+
+    .page-title h1{
+        letter-spacing:-4px;
+    }
+
     .actions{
         align-items:stretch;
         flex-direction:column;
+        gap:15px;
     }
 
     .publish{
@@ -546,6 +646,10 @@ select{
         padding:40px 25px;
     }
 
+    .login-title{
+        font-size:42px;
+    }
+
     .modal-box{
         padding:27px 22px;
     }
@@ -557,11 +661,16 @@ select{
     .modal-btn{
         width:100%;
     }
+
 }
 </style>
 </head>
 
 <body>
+
+<!-- =========================
+     HEADER
+========================= -->
 
 <header>
 
@@ -579,299 +688,388 @@ select{
 
     </div>
 
-    <a
-        href="https://the-notebook-taupe.vercel.app/"
-        class="back"
-        target="_blank"
-        rel="noopener"
-    >
-        + SITE
-    </a>
+    <div class="header-right">
+
+        <a
+            href="https://the-notebook-taupe.vercel.app/"
+            class="back"
+            target="_blank"
+            rel="noopener"
+        >
+            + SITE
+        </a>
+
+        <button
+            id="logoutButton"
+            class="logout"
+            type="button"
+            style="display:none;"
+        >
+            LOGOUT
+        </button>
+
+    </div>
 
 </header>
 
 
-<!-- LOGIN -->
+<!-- =========================
+     LOGIN
+========================= -->
 
 <section id="loginScreen">
 
-<form id="loginForm" class="login-box">
+    <form id="loginForm" class="login-box">
 
-    <p class="eyebrow">
-        THE NOTEBOOK
-    </p>
+        <p class="eyebrow">
+            THE NOTEBOOK
+        </p>
 
-    <h1 class="login-title">
-        Welcome.
-    </h1>
+        <h1 class="login-title">
+            Welcome.
+        </h1>
 
-    <div class="login-field">
+        <div class="login-field">
 
-        <label for="username">
-            USERNAME
-        </label>
+            <label for="username">
+                USERNAME
+            </label>
 
-        <input
-            id="username"
-            class="login-input"
-            type="text"
-            autocomplete="username"
-            placeholder="Username"
-            required
+            <input
+                id="username"
+                class="login-input"
+                type="text"
+                autocomplete="username"
+                placeholder="Username"
+                required
+            >
+
+        </div>
+
+        <div class="login-field">
+
+            <label for="password">
+                PASSWORD
+            </label>
+
+            <input
+                id="password"
+                class="login-input"
+                type="password"
+                autocomplete="current-password"
+                placeholder="Password"
+                required
+            >
+
+        </div>
+
+        <button
+            id="loginButton"
+            class="login-button"
+            type="submit"
         >
+            ENTER
+        </button>
 
-    </div>
+        <p id="loginMessage"></p>
 
-    <div class="login-field">
-
-        <label for="password">
-            PASSWORD
-        </label>
-
-        <input
-            id="password"
-            class="login-input"
-            type="password"
-            autocomplete="current-password"
-            placeholder="Password"
-            required
-        >
-
-    </div>
-
-    <button
-        id="loginButton"
-        class="login-button"
-        type="submit"
-    >
-        ENTER
-    </button>
-
-    <p id="loginMessage"></p>
-
-</form>
+    </form>
 
 </section>
 
 
-<!-- ADMIN -->
+<!-- =========================
+     ADMIN
+========================= -->
 
 <section id="adminScreen">
 
-<main>
+    <main>
 
-<section class="page-title">
+        <section class="page-title">
 
-    <p class="eyebrow">
-        ADMIN
-    </p>
+            <p class="eyebrow">
+                ADMIN
+            </p>
 
-    <h1>
-        Compose.
-    </h1>
+            <h1>
+                Compose.
+            </h1>
+
+        </section>
+
+
+        <form id="blogForm" class="editor">
+
+            <div class="field">
+
+                <label for="title">
+                    TITLE
+                </label>
+
+                <input
+                    id="title"
+                    type="text"
+                    placeholder="Title"
+                    maxlength="200"
+                    required
+                >
+
+            </div>
+
+
+            <div class="field">
+
+                <label for="category">
+                    CATEGORY
+                </label>
+
+                <select id="category">
+
+                    <option value="Journal">
+                        Journal
+                    </option>
+
+                    <option value="Thoughts">
+                        Thoughts
+                    </option>
+
+                    <option value="Stories">
+                        Stories
+                    </option>
+
+                    <option value="Ideas">
+                        Ideas
+                    </option>
+
+                    <option value="Notes">
+                        Notes
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="field">
+
+                <label for="content">
+                    CONTENT
+                </label>
+
+                <textarea
+                    id="content"
+                    placeholder="Write..."
+                    required
+                ></textarea>
+
+            </div>
+
+
+            <div class="actions">
+
+                <button
+                    id="publishButton"
+                    type="submit"
+                    class="publish"
+                >
+                    PUBLISH
+                </button>
+
+                <div id="message"></div>
+
+            </div>
+
+        </form>
+
+
+        <!-- ENTRIES -->
+
+        <section class="entries">
+
+            <div class="entries-head">
+
+                <h2>
+                    Entries
+                </h2>
+
+                <span
+                    id="entryCount"
+                    class="count"
+                >
+                    LOADING
+                </span>
+
+            </div>
+
+            <div id="entriesList"></div>
+
+        </section>
+
+    </main>
 
 </section>
 
 
-<form id="blogForm" class="editor">
+<!-- =========================
+     EDIT MODAL
+========================= -->
 
-<div class="field">
+<div
+    id="editModal"
+    class="modal"
+    aria-hidden="true"
+>
 
-    <label for="title">
-        TITLE
-    </label>
-
-    <input
-        id="title"
-        type="text"
-        placeholder="Title"
-        required
+    <div
+        class="modal-box"
+        role="dialog"
+        aria-modal="true"
     >
 
-</div>
+        <p class="modal-eyebrow">
+            EDIT ENTRY
+        </p>
 
+        <h2 class="modal-title">
+            Refine.
+        </h2>
 
-<div class="field">
+        <div class="modal-field">
 
-    <label for="category">
-        CATEGORY
-    </label>
+            <label for="editTitle">
+                TITLE
+            </label>
 
-    <select id="category">
+            <input
+                id="editTitle"
+                type="text"
+                maxlength="200"
+            >
 
-        <option value="Journal">Journal</option>
-        <option value="Thoughts">Thoughts</option>
-        <option value="Stories">Stories</option>
-        <option value="Ideas">Ideas</option>
-        <option value="Notes">Notes</option>
+        </div>
 
-    </select>
+        <div class="modal-field">
 
-</div>
+            <label for="editCategory">
+                CATEGORY
+            </label>
 
+            <select id="editCategory">
 
-<div class="field">
+                <option value="Journal">
+                    Journal
+                </option>
 
-    <label for="content">
-        CONTENT
-    </label>
+                <option value="Thoughts">
+                    Thoughts
+                </option>
 
-    <textarea
-        id="content"
-        placeholder="Write..."
-        required
-    ></textarea>
+                <option value="Stories">
+                    Stories
+                </option>
 
-</div>
+                <option value="Ideas">
+                    Ideas
+                </option>
 
+                <option value="Notes">
+                    Notes
+                </option>
 
-<div class="actions">
+            </select>
 
-    <button
-        id="publishButton"
-        type="submit"
-        class="publish"
-    >
-        PUBLISH
-    </button>
+        </div>
 
-    <div id="message"></div>
+        <div class="modal-field">
 
-</div>
+            <label for="editContent">
+                CONTENT
+            </label>
 
-</form>
+            <textarea
+                id="editContent"
+            ></textarea>
 
+        </div>
 
-<section class="entries">
+        <div class="modal-actions">
 
-<div class="entries-head">
+            <button
+                id="cancelEdit"
+                type="button"
+                class="modal-btn"
+            >
+                CANCEL
+            </button>
 
-    <h2>
-        Entries
-    </h2>
+            <button
+                id="saveEdit"
+                type="button"
+                class="modal-btn primary"
+            >
+                SAVE CHANGES
+            </button>
 
-    <span
-        id="entryCount"
-        class="count"
-    >
-        LOADING
-    </span>
-
-</div>
-
-<div id="entriesList"></div>
-
-</section>
-
-</main>
-
-</section>
-
-
-<!-- EDIT MODAL -->
-
-<div id="editModal" class="modal">
-
-<div class="modal-box">
-
-    <p class="modal-eyebrow">
-        EDIT ENTRY
-    </p>
-
-    <h2 class="modal-title">
-        Refine.
-    </h2>
-
-    <div class="modal-field">
-
-        <label for="editTitle">
-            TITLE
-        </label>
-
-        <input
-            id="editTitle"
-            type="text"
-        >
-
-    </div>
-
-    <div class="modal-field">
-
-        <label for="editContent">
-            CONTENT
-        </label>
-
-        <textarea id="editContent"></textarea>
-
-    </div>
-
-    <div class="modal-actions">
-
-        <button
-            id="cancelEdit"
-            type="button"
-            class="modal-btn"
-        >
-            CANCEL
-        </button>
-
-        <button
-            id="saveEdit"
-            type="button"
-            class="modal-btn primary"
-        >
-            SAVE CHANGES
-        </button>
+        </div>
 
     </div>
 
 </div>
 
-</div>
 
+<!-- =========================
+     DELETE MODAL
+========================= -->
 
-<!-- DELETE MODAL -->
+<div
+    id="deleteModal"
+    class="modal"
+    aria-hidden="true"
+>
 
-<div id="deleteModal" class="modal">
-
-<div class="modal-box">
-
-    <p class="modal-eyebrow">
-        REMOVE ENTRY
-    </p>
-
-    <h2 class="modal-title">
-        Are you sure?
-    </h2>
-
-    <p
-        id="deleteText"
-        class="delete-text"
+    <div
+        class="modal-box"
+        role="dialog"
+        aria-modal="true"
     >
-        This entry will be permanently removed.
-    </p>
 
-    <div class="modal-actions">
+        <p class="modal-eyebrow">
+            REMOVE ENTRY
+        </p>
 
-        <button
-            id="cancelDelete"
-            type="button"
-            class="modal-btn"
+        <h2 class="modal-title">
+            Are you sure?
+        </h2>
+
+        <p
+            id="deleteText"
+            class="delete-text"
         >
-            CANCEL
-        </button>
+            This entry will be permanently removed.
+        </p>
 
-        <button
-            id="confirmDelete"
-            type="button"
-            class="modal-btn danger"
-        >
-            DELETE
-        </button>
+        <div class="modal-actions">
+
+            <button
+                id="cancelDelete"
+                type="button"
+                class="modal-btn"
+            >
+                CANCEL
+            </button>
+
+            <button
+                id="confirmDelete"
+                type="button"
+                class="modal-btn danger"
+            >
+                DELETE
+            </button>
+
+        </div>
 
     </div>
-
-</div>
 
 </div>
 
@@ -908,6 +1106,9 @@ const loginButton =
 const loginMessage =
     document.getElementById("loginMessage");
 
+const logoutButton =
+    document.getElementById("logoutButton");
+
 const blogForm =
     document.getElementById("blogForm");
 
@@ -932,6 +1133,9 @@ const deleteModal =
 const editTitle =
     document.getElementById("editTitle");
 
+const editCategory =
+    document.getElementById("editCategory");
+
 const editContent =
     document.getElementById("editContent");
 
@@ -949,6 +1153,7 @@ const cancelDelete =
 
 const confirmDelete =
     document.getElementById("confirmDelete");
+
 
 let editingId = null;
 let deletingId = null;
@@ -984,6 +1189,28 @@ function authHeaders(){
 
 
 /* =========================
+   LOGOUT
+========================= */
+
+function logout(){
+
+    localStorage.removeItem(
+        "thenotebook_admin_token"
+    );
+
+    adminScreen.style.display = "none";
+    loginScreen.style.display = "flex";
+
+    logoutButton.style.display = "none";
+
+    loginForm.reset();
+
+    loginMessage.textContent = "";
+
+}
+
+
+/* =========================
    SHOW ADMIN
 ========================= */
 
@@ -992,6 +1219,8 @@ function showAdmin(){
     loginScreen.style.display = "none";
     adminScreen.style.display = "block";
 
+    logoutButton.style.display = "block";
+
     loadEntries();
 
 }
@@ -999,7 +1228,6 @@ function showAdmin(){
 
 /* =========================
    LOGIN
-   ENTER KEY ALSO WORKS
 ========================= */
 
 loginForm.addEventListener(
@@ -1117,32 +1345,50 @@ loginForm.addEventListener(
 
 
 /* =========================
+   LOGOUT BUTTON
+========================= */
+
+logoutButton.addEventListener(
+    "click",
+    logout
+);
+
+
+/* =========================
    PUBLISH
 ========================= */
-    blogForm.addEventListener(
+
+blogForm.addEventListener(
     "submit",
     async function(event){
 
         event.preventDefault();
 
         const title =
-            document.getElementById("title")
+            document
+                .getElementById("title")
                 .value
                 .trim();
 
         const category =
-            document.getElementById("category")
+            document
+                .getElementById("category")
                 .value;
 
         const content =
-            document.getElementById("content")
+            document
+                .getElementById("content")
                 .value
                 .trim();
+
+        message.className = "";
 
         if(!title || !content){
 
             message.textContent =
                 "Please complete the fields.";
+
+            message.className = "error";
 
             return;
 
@@ -1159,7 +1405,9 @@ loginForm.addEventListener(
                     API,
                     {
                         method:"POST",
+
                         headers:authHeaders(),
+
                         body:JSON.stringify({
                             title:title,
                             category:category,
@@ -1177,6 +1425,16 @@ loginForm.addEventListener(
                 data = JSON.parse(text);
             }catch{}
 
+            if(response.status === 401){
+
+                logout();
+
+                throw new Error(
+                    "Your session expired. Please login again."
+                );
+
+            }
+
             if(!response.ok){
 
                 throw new Error(
@@ -1191,6 +1449,8 @@ loginForm.addEventListener(
             message.textContent =
                 "Published successfully.";
 
+            message.className = "success";
+
             await loadEntries();
 
         }
@@ -1202,7 +1462,10 @@ loginForm.addEventListener(
             );
 
             message.textContent =
-                error.message;
+                error.message ||
+                "Unable to publish.";
+
+            message.className = "error";
 
         }
         finally{
@@ -1244,15 +1507,22 @@ async function loadEntries(){
         const blogs =
             Array.isArray(data)
             ? data
-            : (data.blogs || data.entries || []);
+            : (
+                data.blogs ||
+                data.entries ||
+                []
+            );
 
         entriesList.innerHTML = "";
 
         entryCount.textContent =
             String(blogs.length).padStart(2,"0")
-            + (blogs.length === 1
+            +
+            (
+                blogs.length === 1
                 ? " ENTRY"
-                : " ENTRIES");
+                : " ENTRIES"
+            );
 
         if(!blogs.length){
 
@@ -1281,13 +1551,12 @@ async function loadEntries(){
                 const entry =
                     document.createElement("div");
 
-                entry.className =
-                    "entry";
+                entry.className = "entry";
 
                 entry.innerHTML = `
 
                     <div class="entry-number">
-                        ${String(index+1).padStart(2,"0")}
+                        ${String(index + 1).padStart(2,"0")}
                     </div>
 
                     <div>
@@ -1329,17 +1598,21 @@ async function loadEntries(){
 
                 entry
                     .querySelector(".edit-btn")
-                    .onclick =
-                    function(){
-                        openEdit(blog,id);
-                    };
+                    .addEventListener(
+                        "click",
+                        function(){
+                            openEdit(blog,id);
+                        }
+                    );
 
                 entry
                     .querySelector(".delete-btn")
-                    .onclick =
-                    function(){
-                        openDelete(blog,id);
-                    };
+                    .addEventListener(
+                        "click",
+                        function(){
+                            openDelete(blog,id);
+                        }
+                    );
 
                 entriesList.appendChild(entry);
 
@@ -1384,10 +1657,18 @@ function openEdit(blog,id){
     editTitle.value =
         blog.title || "";
 
+    editCategory.value =
+        blog.category || "Journal";
+
     editContent.value =
         blog.content || "";
 
     editModal.classList.add("show");
+
+    editModal.setAttribute(
+        "aria-hidden",
+        "false"
+    );
 
     setTimeout(
         function(){
@@ -1399,98 +1680,138 @@ function openEdit(blog,id){
 }
 
 
-cancelEdit.onclick =
-function(){
+function closeEdit(){
 
     editingId = null;
 
-    editModal.classList.remove("show");
+    editModal.classList.remove(
+        "show"
+    );
 
-};
+    editModal.setAttribute(
+        "aria-hidden",
+        "true"
+    );
+
+}
 
 
-saveEdit.onclick =
-async function(){
+cancelEdit.addEventListener(
+    "click",
+    closeEdit
+);
 
-    if(!editingId){
-        return;
-    }
 
-    const title =
-        editTitle.value.trim();
+/* =========================
+   SAVE EDIT
+========================= */
 
-    const content =
-        editContent.value.trim();
+saveEdit.addEventListener(
+    "click",
+    async function(){
 
-    if(!title || !content){
-        return;
-    }
+        if(!editingId){
+            return;
+        }
 
-    saveEdit.disabled = true;
-    saveEdit.textContent = "SAVING...";
+        const title =
+            editTitle.value.trim();
 
-    try{
+        const category =
+            editCategory.value;
 
-        const response =
-            await fetch(
-                `${API}/${editingId}`,
-                {
-                    method:"PUT",
-                    headers:authHeaders(),
-                    body:JSON.stringify({
-                        title:title,
-                        content:content
-                    })
-                }
+        const content =
+            editContent.value.trim();
+
+        if(!title || !content){
+
+            alert(
+                "Title and content are required."
             );
 
-        const text =
-            await response.text();
-
-        let data = {};
-
-        try{
-            data = JSON.parse(text);
-        }catch{}
-
-        if(!response.ok){
-
-            throw new Error(
-                data.error ||
-                `Update failed (${response.status})`
-            );
+            return;
 
         }
 
-        editModal.classList.remove("show");
+        saveEdit.disabled = true;
+        saveEdit.textContent = "SAVING...";
 
-        editingId = null;
+        try{
 
-        await loadEntries();
+            const response =
+                await fetch(
+                    `${API}/${editingId}`,
+                    {
+                        method:"PUT",
+
+                        headers:authHeaders(),
+
+                        body:JSON.stringify({
+                            title:title,
+                            category:category,
+                            content:content
+                        })
+                    }
+                );
+
+            const text =
+                await response.text();
+
+            let data = {};
+
+            try{
+                data = JSON.parse(text);
+            }catch{}
+
+            if(response.status === 401){
+
+                closeEdit();
+                logout();
+
+                throw new Error(
+                    "Your session expired. Please login again."
+                );
+
+            }
+
+            if(!response.ok){
+
+                throw new Error(
+                    data.error ||
+                    `Update failed (${response.status})`
+                );
+
+            }
+
+            closeEdit();
+
+            await loadEntries();
+
+        }
+        catch(error){
+
+            console.error(
+                "EDIT ERROR:",
+                error
+            );
+
+            alert(
+                error.message ||
+                "Unable to update entry."
+            );
+
+        }
+        finally{
+
+            saveEdit.disabled = false;
+
+            saveEdit.textContent =
+                "SAVE CHANGES";
+
+        }
 
     }
-    catch(error){
-
-        console.error(
-            "EDIT ERROR:",
-            error
-        );
-
-        alert(
-            error.message ||
-            "Unable to update entry."
-        );
-
-    }
-    finally{
-
-        saveEdit.disabled = false;
-        saveEdit.textContent =
-            "SAVE CHANGES";
-
-    }
-
-};
+);
 
 
 /* =========================
@@ -1506,123 +1827,149 @@ function openDelete(blog,id){
 
     deleteModal.classList.add("show");
 
+    deleteModal.setAttribute(
+        "aria-hidden",
+        "false"
+    );
+
 }
 
 
-cancelDelete.onclick =
-function(){
+function closeDelete(){
 
     deletingId = null;
 
-    deleteModal.classList.remove("show");
+    deleteModal.classList.remove(
+        "show"
+    );
 
-};
+    deleteModal.setAttribute(
+        "aria-hidden",
+        "true"
+    );
+
+}
 
 
-confirmDelete.onclick =
-async function(){
+cancelDelete.addEventListener(
+    "click",
+    closeDelete
+);
 
-    if(!deletingId){
-        return;
-    }
 
-    confirmDelete.disabled = true;
-    confirmDelete.textContent = "DELETING...";
+/* =========================
+   CONFIRM DELETE
+========================= */
 
-    try{
+confirmDelete.addEventListener(
+    "click",
+    async function(){
 
-        const response =
-            await fetch(
-                `${API}/${deletingId}`,
-                {
-                    method:"DELETE",
-                    headers:authHeaders()
-                }
-            );
+        if(!deletingId){
+            return;
+        }
 
-        const text =
-            await response.text();
-
-        let data = {};
+        confirmDelete.disabled = true;
+        confirmDelete.textContent =
+            "DELETING...";
 
         try{
-            data = JSON.parse(text);
-        }catch{}
 
-        if(!response.ok){
+            const response =
+                await fetch(
+                    `${API}/${deletingId}`,
+                    {
+                        method:"DELETE",
+                        headers:authHeaders()
+                    }
+                );
 
-            throw new Error(
-                data.error ||
-                `Delete failed (${response.status})`
+            const text =
+                await response.text();
+
+            let data = {};
+
+            try{
+                data = JSON.parse(text);
+            }catch{}
+
+            if(response.status === 401){
+
+                closeDelete();
+                logout();
+
+                throw new Error(
+                    "Your session expired. Please login again."
+                );
+
+            }
+
+            if(!response.ok){
+
+                throw new Error(
+                    data.error ||
+                    `Delete failed (${response.status})`
+                );
+
+            }
+
+            closeDelete();
+
+            await loadEntries();
+
+        }
+        catch(error){
+
+            console.error(
+                "DELETE ERROR:",
+                error
+            );
+
+            alert(
+                error.message ||
+                "Unable to delete entry."
             );
 
         }
+        finally{
 
-        deleteModal.classList.remove("show");
+            confirmDelete.disabled = false;
 
-        deletingId = null;
+            confirmDelete.textContent =
+                "DELETE";
 
-        await loadEntries();
-
-    }
-    catch(error){
-
-        console.error(
-            "DELETE ERROR:",
-            error
-        );
-
-        alert(
-            error.message ||
-            "Unable to delete entry."
-        );
+        }
 
     }
-    finally{
-
-        confirmDelete.disabled = false;
-        confirmDelete.textContent =
-            "DELETE";
-
-    }
-
-};
+);
 
 
 /* =========================
    MODAL BACKDROP
 ========================= */
 
-editModal.onclick =
-function(event){
+editModal.addEventListener(
+    "click",
+    function(event){
 
-    if(event.target === editModal){
-
-        editModal.classList.remove(
-            "show"
-        );
-
-        editingId = null;
+        if(event.target === editModal){
+            closeEdit();
+        }
 
     }
+);
 
-};
 
+deleteModal.addEventListener(
+    "click",
+    function(event){
 
-deleteModal.onclick =
-function(event){
-
-    if(event.target === deleteModal){
-
-        deleteModal.classList.remove(
-            "show"
-        );
-
-        deletingId = null;
+        if(event.target === deleteModal){
+            closeDelete();
+        }
 
     }
-
-};
+);
 
 
 /* =========================
@@ -1637,16 +1984,8 @@ document.addEventListener(
             return;
         }
 
-        editModal.classList.remove(
-            "show"
-        );
-
-        deleteModal.classList.remove(
-            "show"
-        );
-
-        editingId = null;
-        deletingId = null;
+        closeEdit();
+        closeDelete();
 
     }
 );
@@ -1678,10 +2017,18 @@ if(getToken()){
     showAdmin();
 
 }
+else{
+
+    loginScreen.style.display = "flex";
+    adminScreen.style.display = "none";
+    logoutButton.style.display = "none";
+
+}
 
 </script>
 
 </body>
 </html>
+
+
     
-}
