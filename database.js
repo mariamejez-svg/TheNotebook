@@ -1,6 +1,6 @@
 const Database = require("better-sqlite3");
 
-const db = new Database("thenotebook.db");
+const db = new Database("/app/data/thenotebook.db");
 
 
 // =========================
