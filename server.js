@@ -620,6 +620,266 @@ app.post(
 
 
 /* =========================
+   LIKES
+========================= */
+
+/*
+   GET LIKE STATUS + COUNT
+   PUBLIC
+*/
+
+app.get(
+    "/api/blogs/:id/likes",
+    (req, res) => {
+
+        try {
+
+            const blog = db.prepare(`
+                SELECT id
+                FROM blogs
+                WHERE id = ?
+            `).get(req.params.id);
+
+
+            if (!blog) {
+
+                return res.status(404).json({
+                    error: "Blog not found."
+                });
+
+            }
+
+
+            const count = db.prepare(`
+                SELECT COUNT(*) AS count
+                FROM likes
+                WHERE blog_id = ?
+            `).get(req.params.id);
+
+
+            const visitorId =
+                typeof req.query.visitor_id === "string"
+                    ? req.query.visitor_id.trim()
+                    : "";
+
+
+            let liked = false;
+
+
+            if (visitorId) {
+
+                const existing = db.prepare(`
+                    SELECT id
+                    FROM likes
+                    WHERE blog_id = ?
+                    AND visitor_id = ?
+                `).get(
+                    req.params.id,
+                    visitorId
+                );
+
+
+                liked = !!existing;
+
+            }
+
+
+            return res.json({
+
+                count: count.count,
+
+                liked: liked
+
+            });
+
+        }
+
+        catch (error) {
+
+            console.error(
+                "GET LIKES ERROR:",
+                error
+            );
+
+            return res.status(500).json({
+                error:
+                    "Unable to load likes."
+            });
+
+        }
+
+    }
+);
+
+
+/*
+   ADD LIKE
+   PUBLIC
+*/
+
+app.post(
+    "/api/blogs/:id/likes",
+    (req, res) => {
+
+        try {
+
+            const visitorId =
+                typeof req.body?.visitor_id === "string"
+                    ? req.body.visitor_id.trim()
+                    : "";
+
+
+            if (!visitorId) {
+
+                return res.status(400).json({
+                    error:
+                        "Visitor ID is required."
+                });
+
+            }
+
+
+            const blog = db.prepare(`
+                SELECT id
+                FROM blogs
+                WHERE id = ?
+            `).get(req.params.id);
+
+
+            if (!blog) {
+
+                return res.status(404).json({
+                    error:
+                        "Blog not found."
+                });
+
+            }
+
+
+            db.prepare(`
+                INSERT OR IGNORE INTO likes
+                (blog_id, visitor_id)
+                VALUES (?, ?)
+            `).run(
+
+                req.params.id,
+
+                visitorId
+
+            );
+
+
+            const count = db.prepare(`
+                SELECT COUNT(*) AS count
+                FROM likes
+                WHERE blog_id = ?
+            `).get(req.params.id);
+
+
+            return res.status(201).json({
+
+                liked: true,
+
+                count: count.count
+
+            });
+
+        }
+
+        catch (error) {
+
+            console.error(
+                "ADD LIKE ERROR:",
+                error
+            );
+
+            return res.status(500).json({
+                error:
+                    "Unable to like this entry."
+            });
+
+        }
+
+    }
+);
+
+
+/*
+   REMOVE LIKE
+   PUBLIC
+*/
+
+app.delete(
+    "/api/blogs/:id/likes",
+    (req, res) => {
+
+        try {
+
+            const visitorId =
+                typeof req.body?.visitor_id === "string"
+                    ? req.body.visitor_id.trim()
+                    : "";
+
+
+            if (!visitorId) {
+
+                return res.status(400).json({
+                    error:
+                        "Visitor ID is required."
+                });
+
+            }
+
+
+            db.prepare(`
+                DELETE FROM likes
+                WHERE blog_id = ?
+                AND visitor_id = ?
+            `).run(
+
+                req.params.id,
+
+                visitorId
+
+            );
+
+
+            const count = db.prepare(`
+                SELECT COUNT(*) AS count
+                FROM likes
+                WHERE blog_id = ?
+            `).get(req.params.id);
+
+
+            return res.json({
+
+                liked: false,
+
+                count: count.count
+
+            });
+
+        }
+
+        catch (error) {
+
+            console.error(
+                "REMOVE LIKE ERROR:",
+                error
+            );
+
+            return res.status(500).json({
+                error:
+                    "Unable to remove like."
+            });
+
+        }
+
+    }
+);
+
+
+/* =========================
    SERVER
 ========================= */
 
