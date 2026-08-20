@@ -38,6 +38,26 @@ db.prepare(`
 `).run();
 
 
+// =========================
+// LIKES TABLE
+// =========================
+
+db.prepare(`
+    CREATE TABLE IF NOT EXISTS likes (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        blog_id INTEGER NOT NULL,
+        visitor_id TEXT NOT NULL,
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+
+        FOREIGN KEY (blog_id)
+        REFERENCES blogs(id)
+        ON DELETE CASCADE,
+
+        UNIQUE(blog_id, visitor_id)
+    )
+`).run();
+
+
 console.log("TheNotebook database is ready.");
 
 
