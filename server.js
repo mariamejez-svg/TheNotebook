@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const jwt = require("jsonwebtoken");
 const cloudinary = require("cloudinary").v2;
+const multer = require("multer");
 const db = require("./database");
 
 const app = express();
