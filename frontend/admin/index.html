@@ -1183,6 +1183,12 @@ const editCategory =
 const editContent =
     document.getElementById("editContent");
 
+    const editImage =
+    document.getElementById("editImage");
+
+const editImageStatus =
+    document.getElementById("editImageStatus");
+    
 const deleteText =
     document.getElementById("deleteText");
 
@@ -1754,7 +1760,12 @@ function openEdit(blog,id){
 
     editContent.value =
         blog.content || "";
+editImage.value = "";
 
+editImageStatus.textContent =
+    blog.image
+    ? "Current cover image will remain unless you choose a new one."
+    : "No cover image.";
     editModal.classList.add("show");
 
     editModal.setAttribute(
