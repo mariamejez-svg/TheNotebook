@@ -9,7 +9,7 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
-const upload = multer({
+const upload = multer({ 
     storage: multer.memoryStorage(),
     limits: {
         fileSize: 10 * 1024 * 1024
