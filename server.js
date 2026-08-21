@@ -464,10 +464,11 @@ app.put(
         try {
 
             const {
-                title,
-                content,
-                category
-            } = req.body || {};
+    title,
+    content,
+    category,
+    image
+} = req.body || {};
 
             if (
                 !title ||
