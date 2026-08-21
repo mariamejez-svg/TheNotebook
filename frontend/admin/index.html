@@ -1504,13 +1504,12 @@ if (imageInput && imageInput.files.length > 0) {
 
                         headers:authHeaders(),
 
-                        body:JSON.stringify({
-                            title:title,
-                            category:category,
-                            content:content,
-                            image:imageUrl
-                            
-                        })
+                       body:JSON.stringify({
+    title: title,
+    category: category,
+    content: content,
+    image: imageUrl
+})
                     }
                 );
 
