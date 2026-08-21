@@ -9,6 +9,21 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
+const upload = multer({
+    storage: multer.memoryStorage(),
+    limits: {
+        fileSize: 10 * 1024 * 1024
+    },
+    fileFilter: (req, file, cb) => {
+
+        if (file.mimetype.startsWith("image/")) {
+            cb(null, true);
+        } else {
+            cb(new Error("Only image files are allowed."));
+        }
+
+    }
+});
 
 /* =========================
    ADMIN SETTINGS
