@@ -1445,7 +1445,7 @@ console.log("IMAGE UPLOAD STARTED");
             body: formData
         }
     );
-
+console.log("IMAGE UPLOAD RESPONSE:", imageResponse.status);
     const imageData = await imageResponse.json();
 
     if (imageResponse.status === 401) {
