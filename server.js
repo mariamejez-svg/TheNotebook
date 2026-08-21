@@ -23,7 +23,7 @@ const upload = multer({
         }
 
     }
-});
+}); 
 
 /* =========================
    ADMIN SETTINGS
@@ -178,7 +178,73 @@ function requireAdmin(req, res, next) {
 
 }
 
+/* =========================
+   IMAGE UPLOAD
+   ADMIN ONLY
+========================= */
 
+app.post(
+    "/api/upload-image",
+    requireAdmin,
+    upload.single("image"),
+    async (req, res) => {
+
+        try {
+
+            if (!req.file) {
+
+                return res.status(400).json({
+                    error: "No image selected."
+                });
+
+            }
+
+            const result =
+                await new Promise(
+                    (resolve, reject) => {
+
+                        const stream =
+                            cloudinary.uploader.upload_stream(
+                                {
+                                    folder: "thenotebook"
+                                },
+                                (error, result) => {
+
+                                    if (error) {
+                                        reject(error);
+                                    } else {
+                                        resolve(result);
+                                    }
+                                }
+                            );
+
+                        stream.end(req.file.buffer);
+
+                    }
+                );
+
+            return res.json({
+                message: "Image uploaded successfully.",
+                url: result.secure_url
+            });
+
+        }
+
+        catch (error) {
+
+            console.error(
+                "IMAGE UPLOAD ERROR:",
+                error
+            );
+
+            return res.status(500).json({
+                error: "Unable to upload image."
+            });
+
+        }
+
+    }
+);
 /* =========================
    GET ALL BLOGS
    PUBLIC
