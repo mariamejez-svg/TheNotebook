@@ -1829,6 +1829,46 @@ saveEdit.addEventListener(
     editImage.files.length > 0
     ? editImage.files[0]
     : null;
+        let imageUrl = null;
+
+if (editImageFile) {
+
+    editImageStatus.textContent = "Uploading new image...";
+
+    const formData = new FormData();
+
+    formData.append("image", editImageFile);
+
+    const imageResponse = await fetch(
+        "https://thenotebook-production-4e53.up.railway.app/api/upload-image",
+        {
+            method: "POST",
+            headers: {
+                "Authorization": "Bearer " + getToken()
+            },
+            body: formData
+        }
+    );
+
+    const imageData = await imageResponse.json();
+
+    if (imageResponse.status === 401) {
+        logout();
+        throw new Error(
+            "Your session expired. Please login again."
+        );
+    }
+
+    if (!imageResponse.ok) {
+        throw new Error(
+            imageData.error || "Image upload failed."
+        );
+    }
+
+    imageUrl = imageData.url;
+
+    editImageStatus.textContent = "New image uploaded.";
+}
 
         if(!title || !content){
 
