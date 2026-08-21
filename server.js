@@ -229,7 +229,8 @@ app.post(
                     const stream =
                         cloudinary.uploader.upload_stream(
                             {
-                                folder: "thenotebook"
+                                folder: "thenotebook",
+                                resource_type: "image"
                             },
                             (error, result) => {
 
