@@ -1825,6 +1825,10 @@ saveEdit.addEventListener(
 
         const content =
             editContent.value.trim();
+        const editImageFile =
+    editImage.files.length > 0
+    ? editImage.files[0]
+    : null;
 
         if(!title || !content){
 
@@ -1850,9 +1854,11 @@ saveEdit.addEventListener(
                         headers:authHeaders(),
 
                         body:JSON.stringify({
-                            title:title,
-                            category:category,
-                            content:content
+    title:title,
+    category:category,
+    content:content,
+    image:imageUrl
+})
                         })
                     }
                 );
