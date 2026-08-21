@@ -485,25 +485,29 @@ app.put(
             }
 
             const result = db.prepare(`
-                UPDATE blogs
-                SET
-                    title = ?,
-                    content = ?,
-                    category = ?
-                WHERE id = ?
-            `).run(
+               UPDATE blogs
+SET
+    title = ?,
+    content = ?,
+    category = ?,
+    image = COALESCE(?, image)
+WHERE id = ?
+            `)
+                .run(
 
-                title.trim(),
+    title.trim(),
 
-                content.trim(),
+    content.trim(),
 
-                category && category.trim()
-                    ? category.trim()
-                    : "Journal",
+    category && category.trim()
+        ? category.trim()
+        : "Journal",
 
-                req.params.id
+    image || null,
 
-            );
+    req.params.id
+
+);
 
             if (result.changes === 0) {
 
