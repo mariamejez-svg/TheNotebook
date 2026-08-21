@@ -1426,7 +1426,8 @@ const imageStatus =
         message.textContent = "";
 
         let imageUrl = null;
-
+try{
+    
 
 if (imageInput && imageInput.files.length > 0) {
 
@@ -1465,7 +1466,7 @@ if (imageInput && imageInput.files.length > 0) {
     imageStatus.textContent = "Image uploaded.";
 }
         
-        try{
+    
 
             const response =
                 await fetch(
