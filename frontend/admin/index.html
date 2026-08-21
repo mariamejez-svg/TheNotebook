@@ -1425,6 +1425,42 @@ const imageStatus =
         publishButton.textContent = "PUBLISHING...";
         message.textContent = "";
 
+        let imageUrl = null;
+
+if (imageInput && imageInput.files.length > 0) {
+
+    imageStatus.textContent = "Uploading image...";
+
+    const formData = new FormData();
+
+    formData.append("image", imageInput.files[0]);
+
+    const imageResponse = await fetch(
+        "https://thenotebook-production-7c28.up.railway.app/api/upload-image",
+        {
+            method: "POST",
+            headers: authHeaders(),
+            body: formData
+        }
+    );
+
+    const imageData = await imageResponse.json();
+
+    if (imageResponse.status === 401) {
+        logout();
+        throw new Error("Your session expired. Please login again.");
+    }
+
+    if (!imageResponse.ok) {
+        throw new Error(
+            imageData.error || "Image upload failed."
+        );
+    }
+
+    imageUrl = imageData.url;
+
+    imageStatus.textContent = "Image uploaded.";
+}
         try{
 
             const response =
@@ -1438,7 +1474,9 @@ const imageStatus =
                         body:JSON.stringify({
                             title:title,
                             category:category,
-                            content:content
+                            content:content,
+                            image:imageUrl
+                            
                         })
                     }
                 );
