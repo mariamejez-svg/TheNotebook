@@ -232,14 +232,11 @@ app.post(
                     }, 30000);
 
                     const stream =
-    cloudinary.uploader.upload_stream(
-        {
-            folder: "thenotebook",
-            resource_type: "image",
-            cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-            api_key: process.env.CLOUDINARY_API_KEY,
-            api_secret: process.env.CLOUDINARY_API_SECRET
-        },
+   cloudinary.uploader.upload_stream(
+    {
+        folder: "thenotebook",
+        resource_type: "image"
+    },
                             (error, result) => {
 
                                 clearTimeout(timeout);
