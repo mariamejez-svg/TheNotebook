@@ -45,8 +45,10 @@ console.log("CLOUDINARY CHECK:", {
 });
 console.log("CLOUDINARY CONFIG CHECK:", {
     cloud_name: cloudinary.config().cloud_name,
-    api_key: !!cloudinary.config().api_key,
-    api_secret: !!cloudinary.config().api_secret
+    api_key_present: Boolean(cloudinary.config().api_key),
+    api_key_length: String(cloudinary.config().api_key || "").length,
+    api_secret_present: Boolean(cloudinary.config().api_secret),
+    api_secret_length: String(cloudinary.config().api_secret || "").length
 });
 /* =========================
    HOME
