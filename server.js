@@ -183,47 +183,79 @@ function requireAdmin(req, res, next) {
    ADMIN ONLY
 ========================= */
 
+/* =========================
+   IMAGE UPLOAD
+   ADMIN ONLY
+========================= */
+
 app.post(
     "/api/upload-image",
     requireAdmin,
     upload.single("image"),
     async (req, res) => {
 
+        console.log("IMAGE UPLOAD REQUEST RECEIVED");
+
         try {
 
             if (!req.file) {
-
                 return res.status(400).json({
                     error: "No image selected."
                 });
-
             }
 
-            const result =
-                await new Promise(
-                    (resolve, reject) => {
+            console.log(
+                "IMAGE RECEIVED:",
+                req.file.originalname,
+                req.file.size,
+                req.file.mimetype
+            );
 
-                        const stream =
-                            cloudinary.uploader.upload_stream(
-                                {
-                                    folder: "thenotebook"
-                                },
-                                (error, result) => {
+            const result = await new Promise(
+                (resolve, reject) => {
 
-                                    if (error) {
-                                        reject(error);
-                                    } else {
-                                        resolve(result);
-                                    }
+                    const timeout = setTimeout(() => {
+                        reject(
+                            new Error(
+                                "Cloudinary upload timed out."
+                            )
+                        );
+                    }, 30000);
+
+                    const stream =
+                        cloudinary.uploader.upload_stream(
+                            {
+                                folder: "thenotebook"
+                            },
+                            (error, result) => {
+
+                                clearTimeout(timeout);
+
+                                if (error) {
+                                    reject(error);
+                                } else {
+                                    resolve(result);
                                 }
-                            );
 
-                        stream.end(req.file.buffer);
+                            }
+                        );
 
-                    }
-                );
+                    stream.on("error", (error) => {
+                        clearTimeout(timeout);
+                        reject(error);
+                    });
 
-            return res.json({
+                    stream.end(req.file.buffer);
+
+                }
+            );
+
+            console.log(
+                "CLOUDINARY UPLOAD SUCCESS:",
+                result.secure_url
+            );
+
+            return res.status(200).json({
                 message: "Image uploaded successfully.",
                 url: result.secure_url
             });
@@ -238,7 +270,9 @@ app.post(
             );
 
             return res.status(500).json({
-                error: "Unable to upload image."
+                error:
+                    error.message ||
+                    "Unable to upload image."
             });
 
         }
