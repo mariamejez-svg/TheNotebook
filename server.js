@@ -33,10 +33,11 @@ const ADMIN_USERNAME = process.env.ADMIN_USERNAME;
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
 const JWT_SECRET = process.env.JWT_SECRET;
 cloudinary.config({
-    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-    api_key: process.env.CLOUDINARY_API_KEY,
-    api_secret: process.env.CLOUDINARY_API_SECRET
+    cloud_name: String(process.env.CLOUDINARY_CLOUD_NAME || "").trim(),
+    api_key: String(process.env.CLOUDINARY_API_KEY || "").trim(),
+    api_secret: String(process.env.CLOUDINARY_API_SECRET || "").trim()
 });
+
 console.log("CLOUDINARY CHECK:", {
     cloud_name: !!process.env.CLOUDINARY_CLOUD_NAME,
     api_key: !!process.env.CLOUDINARY_API_KEY,
