@@ -1426,6 +1426,7 @@ const imageStatus =
         message.textContent = "";
 
         let imageUrl = null;
+let imageUrl = null;
 
 if (imageInput && imageInput.files.length > 0) {
 
@@ -1433,35 +1434,64 @@ if (imageInput && imageInput.files.length > 0) {
 
     const formData = new FormData();
 
-    formData.append("image", imageInput.files[0]);
-console.log("IMAGE UPLOAD STARTED");
+    formData.append(
+        "image",
+        imageInput.files[0]
+    );
+
+    const token =
+        localStorage.getItem(
+            "thenotebook_admin_token"
+        );
+
+    if (!token) {
+        throw new Error(
+            "Admin session not found. Please login again."
+        );
+    }
+
     const imageResponse = await fetch(
         "https://thenotebook-production-7c28.up.railway.app/api/upload-image",
         {
             method: "POST",
+
             headers: {
-    "Authorization": "Bearer " + getToken()
-},
+                "Authorization":
+                    "Bearer " + token
+            },
+
             body: formData
         }
     );
-console.log("IMAGE UPLOAD RESPONSE:", imageResponse.status);
-    const imageData = await imageResponse.json();
+
+    const imageData =
+        await imageResponse.json();
 
     if (imageResponse.status === 401) {
+
         logout();
-        throw new Error("Your session expired. Please login again.");
+
+        throw new Error(
+            "Your session expired. Please login again."
+        );
+
     }
 
     if (!imageResponse.ok) {
+
         throw new Error(
-            imageData.error || "Image upload failed."
+            imageData.error ||
+            "Image upload failed."
         );
+
     }
 
-    imageUrl = imageData.url;
+    imageUrl =
+        imageData.url;
 
-    imageStatus.textContent = "Image uploaded.";
+    imageStatus.textContent =
+        "Image uploaded.";
+
 }
         try{
 
