@@ -1439,7 +1439,9 @@ if (imageInput && imageInput.files.length > 0) {
         "https://thenotebook-production-7c28.up.railway.app/api/upload-image",
         {
             method: "POST",
-            headers: authHeaders(),
+            headers: {
+    "Authorization": "Bearer " + getToken()
+},
             body: formData
         }
     );
