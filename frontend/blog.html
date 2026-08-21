@@ -522,10 +522,21 @@ async function loadEntry(){
             </div>
 
 
-            <div class="line"></div>
+           <div class="line"></div>
 
+${
+    blog.image
+        ? `
+            <img
+                class="entry-image"
+                src="${escapeHTML(blog.image)}"
+                alt="${escapeHTML(blog.title)}"
+            >
+          `
+        : ""
+}
 
-            <div class="content">
+<div class="content">
 
                 ${escapeHTML(
                     blog.content
