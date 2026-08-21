@@ -1434,65 +1434,35 @@ if (imageInput && imageInput.files.length > 0) {
 
     const formData = new FormData();
 
-    formData.append(
-        "image",
-        imageInput.files[0]
-    );
-
-    const token =
-        localStorage.getItem(
-            "thenotebook_admin_token"
-        );
-
-    if (!token) {
-        throw new Error(
-            "Admin session not found. Please login again."
-        );
-    }
+    formData.append("image", imageInput.files[0]);
 
     const imageResponse = await fetch(
         "https://thenotebook-production-7c28.up.railway.app/api/upload-image",
         {
             method: "POST",
-
-            headers: {
-                "Authorization":
-                    "Bearer " + token
-            },
-
+            headers: authHeaders(),
             body: formData
         }
     );
 
-    const imageData =
-        await imageResponse.json();
+    const imageData = await imageResponse.json();
 
     if (imageResponse.status === 401) {
-
         logout();
-
-        throw new Error(
-            "Your session expired. Please login again."
-        );
-
+        throw new Error("Your session expired. Please login again.");
     }
 
     if (!imageResponse.ok) {
-
         throw new Error(
-            imageData.error ||
-            "Image upload failed."
+            imageData.error || "Image upload failed."
         );
-
     }
 
-    imageUrl =
-        imageData.url;
+    imageUrl = imageData.url;
 
-    imageStatus.textContent =
-        "Image uploaded.";
-
+    imageStatus.textContent = "Image uploaded.";
 }
+        try{
         try{
 
             const response =
